@@ -1,0 +1,18 @@
+---
+title: "Proyecto analisis exploratorio y clustering"
+author: "Andres Quinto, Mirka Monzon, Oscar De Leon, Oscar Ramos, Diego Crespo"
+date: "26/03/2022"
+output: 
+  html_document:
+    code_folding: hide
+    word_document: default
+    pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
