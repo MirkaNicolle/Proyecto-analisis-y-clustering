@@ -13,6 +13,18 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+library(haven)
+library(foreign)
+#Lectura y conversion de los .SAV
+
+
+write.csv(X2011, 'X2011.csv')
+write.csv(X2012, 'X2012.csv')
+write.csv(X2013, 'X2013.csv')
+```
+
+
 
 
 
