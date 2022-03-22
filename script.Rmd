@@ -18,12 +18,16 @@ library(haven)
 library(foreign)
 #Lectura y conversion de los .SAV
 
-
-write.csv(X2011, 'X2011.csv')
-write.csv(X2012, 'X2012.csv')
-write.csv(X2013, 'X2013.csv')
-write.csv(base1, 'base1.csv')
-write.csv(X2016, 'X2016.csv')
+# Comentados los savs que ya fueron convertidos en .csv
+# write.csv(X2011, 'X2011.csv')
+# write.csv(X2012, 'X2012.csv')
+# write.csv(X2013, 'X2013.csv')
+# write.csv(base1, 'base1.csv')
+# write.csv(X2016, 'X2016.csv')
+# write.csv(matri2014, 'matri2014 .csv')
+# write.csv(matri2015 , 'matri2015 .csv')
+# write.csv(matri2016 , 'matri2016 .csv')
+# 
 ```
 
 
