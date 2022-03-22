@@ -22,6 +22,8 @@ library(foreign)
 write.csv(X2011, 'X2011.csv')
 write.csv(X2012, 'X2012.csv')
 write.csv(X2013, 'X2013.csv')
+write.csv(base1, 'base1.csv')
+write.csv(X2016, 'X2016.csv')
 ```
 
 
