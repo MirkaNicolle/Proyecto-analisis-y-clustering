@@ -122,6 +122,55 @@ datos2019$AREAGOCU <- "None"
 
 ```
 
+```{r}
+library(haven)
+library(foreign)
+
+datos2013 <- read_sav("./SAVS/2013M.sav")
+
+#-------------------------Modificaciones 2013------------------------
+#columnas a crear para año 2013: NUNUHO, NUNUMU
+#no hay columnas para cambiar 
+#columnas por borrar: x
+
+#NUNUHO
+NUNUHO <- rnorm(nrow(datos2013))
+datos2013 <- cbind(datos2013,NUNUHO)
+datos2013$NUNUHO <- "None"
+
+#NUNUMU
+NUNUMU <- rnorm(nrow(datos2013))
+datos2013 <- cbind(datos2013, NUNUMU)
+datos2013$NUNUMU <- "NA"
+
+#drop x
+datos2013$X <- NULL
+```
+
+```{r}
+library(haven)
+library(foreign)
+
+datos2014 <- read_sav("./SAVS/2014M.sav")
+
+#-------------------------Modificaciones 2014------------------------
+#columnas a crear para año 2014: NUNUHO, NUNUMU
+#no hay comunas para cambiar 
+#columnas por borrar: x
+
+#NUNUHO
+NUNUHO <- rnorm(nrow(datos2014))
+datos2014 <- cbind(datos2014,NUNUHO)
+datos2014$NUNUHO <- "None"
+
+#NUNUMU
+NUNUMU <- rnorm(nrow(datos2014))
+datos2014 <- cbind(datos2014, NUNUMU)
+datos2014$NUNUMU <- "NA"
+
+#drop x
+datos2014$X <- NULL
+```
 
 
 
