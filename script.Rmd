@@ -31,6 +31,7 @@ library(foreign)
 
 datos2011 <- read_sav("D:\\Universidad\\mineria de datos\\ProyectoMineria1\\Proyecto-analisis-y-clustering\\SAVS\\20111.sav")
 datos2012 <- read_sav("D:\\Universidad\\mineria de datos\\ProyectoMineria1\\Proyecto-analisis-y-clustering\\SAVS\\20122.sav")
+datos2019 <- read_sav("D:\\Universidad\\mineria de datos\\ProyectoMineria1\\Proyecto-analisis-y-clustering\\SAVS\\2019.sav")
 
 #---------------------Modificaciones 2011----------------------
 #Crear columnas en dataset 2011 NUNUHO, NUNUMU
