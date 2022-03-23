@@ -220,7 +220,7 @@ datos2015 <- read_sav("./SAVS/2015M.sav")
 library(haven)
 library(foreign)
 
-datos2015 <- read_sav("./SAVS/2015N.sav")
+datos2015N <- read_sav("./SAVS/2015N.sav")
 
 #NO FUE NECESARIO REALIZAR CAMBIOS
 
@@ -231,21 +231,12 @@ datos2015 <- read_sav("./SAVS/2015N.sav")
 library(haven)
 library(foreign)
 
-datos2016 <- read_sav("./SAVS/2016N.sav")
+datos2016N <- read_sav("./SAVS/2016N.sav")
 
 #NO FUE NECESARIO REALIZAR CAMBIOS
 
 ```
 
 
-```{r}
-library(haven)
-library(foreign)
-
-datos2019 <- read_sav("./2019N.sav")
-
-#NO FUE NECESARIO REALIZAR CAMBIOS
-
-```
 
 
