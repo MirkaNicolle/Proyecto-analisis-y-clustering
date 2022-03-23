@@ -112,7 +112,13 @@ for(i in 1:length(cnames)){
   }
 }
 colnames(datos2012) <- nombresN
-datos2012$AÑOOCU <- ifelse(datos2012$AÑOOCU == 'None', 2012, datos2012$AÑOOCU)
+#datos2012$AÑOOCU <- ifelse(datos2012$AÑOOCU == 'None', 2012, datos2012$AÑOOCU)
+
+#-------------------------Modificaciones 2019------------------------
+#Agregar columna areagocu
+AREAGOCU <- rnorm(nrow(datos2019))
+datos2019 <- cbind(datos2019, AREAGOCU)
+datos2019$AREAGOCU <- "None"
 
 ```
 
