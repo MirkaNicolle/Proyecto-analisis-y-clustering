@@ -31,6 +31,8 @@ library(foreign)
 
 datos2011 <- read_sav("D:\\Universidad\\mineria de datos\\ProyectoMineria1\\Proyecto-analisis-y-clustering\\SAVS\\20111.sav")
 datos2012 <- read_sav("D:\\Universidad\\mineria de datos\\ProyectoMineria1\\Proyecto-analisis-y-clustering\\SAVS\\20122.sav")
+datosNacim2011 <- read_sav("D:\\Universidad\\mineria de datos\\ProyectoMineria1\\Proyecto-analisis-y-clustering\\SAVS\\2011N.sav")
+datosNacim2012 <- read_sav("D:\\Universidad\\mineria de datos\\ProyectoMineria1\\Proyecto-analisis-y-clustering\\SAVS\\2012N.sav")
 datos2019 <- read_sav("D:\\Universidad\\mineria de datos\\ProyectoMineria1\\Proyecto-analisis-y-clustering\\SAVS\\2019.sav")
 
 #---------------------Modificaciones 2011----------------------
