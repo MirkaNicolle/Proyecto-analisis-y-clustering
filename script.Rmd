@@ -28,7 +28,92 @@ library(foreign)
 # write.csv(matri2015 , 'matri2015 .csv')
 # write.csv(matri2016 , 'matri2016 .csv')
 # 
+
+datos2011 <- read_sav("D:\\Universidad\\mineria de datos\\ProyectoMineria1\\Proyecto-analisis-y-clustering\\SAVS\\20111.sav")
+datos2012 <- read_sav("D:\\Universidad\\mineria de datos\\ProyectoMineria1\\Proyecto-analisis-y-clustering\\SAVS\\20122.sav")
+
+#---------------------Modificaciones 2011----------------------
+#Crear columnas en dataset 2011 NUNUHO, NUNUMU
+NUNUHO <- rnorm(nrow(datos2011))
+datos2011 <- cbind(datos2011,NUNUHO)
+datos2011$NUNUHO <- "None"
+NUNUMU <- rnorm(nrow(datos2011))
+datos2011 <- cbind(datos2011, NUNUMU)
+datos2011$NUNUMU <- "None"
+#Poner todas en uppercase 2011
+cnames <- colnames(datos2011)
+mayu2011 = c()
+for (i in 1:length(cnames)){
+  mayu2011[i] <- toupper(cnames[i])  
+}
+colnames(datos2011)<-mayu2011
+#cambiar AREAG por AREAGOCU, OCUHOM, OCUMUJ, PUEHOM, PUEMUJ
+cnames <- colnames(datos2011)
+nombresN = c()
+for(i in 1:length(cnames)){
+  if(cnames[i] == "AREAG"){
+    nombresN[i] <- "AREAGOCU"
+  }
+  else if(cnames[i] == "OCUHOM"){
+    nombresN[i] <- "CIUOHOM"
+  }
+  else if(cnames[i] == "OCUMUJ"){
+    nombresN[i] <- "CIUOMUJ"
+  }
+  else if(cnames[i] == "GETHOM"){
+    nombresN[i] <- "PUEHOM"
+  }
+  else if(cnames[i] == "GETMUJ"){
+    nombresN[i] <- "PUEMUJ"
+  }
+  else{
+    nombresN[i] <- cnames[i]
+  }
+}
+colnames(datos2011) <- nombresN
+
+#-------------------------Modificaciones 2012------------------------
+
+#Crear columnas en dataset 2012 AÑOOCU, NUNUHO, NUNUMU
+AÑOOCU <- rnorm(nrow(datos2012))
+datos2012 <- cbind(datos2012, AÑOOCU)
+datos2012$AÑOOCU <- "None"
+NUNUHO <- rnorm(nrow(datos2012))
+datos2012 <- cbind(datos2012,NUNUHO)
+datos2012$NUNUHO <- "None"
+NUNUMU <- rnorm(nrow(datos2012))
+datos2012 <- cbind(datos2012, NUNUMU)
+datos2012$NUNUMU <- "NA"
+#View(datos2012)
+#cambiar AREAG por AREAGOCU, OCUHOM, OCUMUJ, PUEHOM, PUEMUJ
+cnames <- colnames(datos2012)
+nombresN = c()
+for(i in 1:length(cnames)){
+  if(cnames[i] == "AREAG"){
+    nombresN[i] <- "AREAGOCU"
+  }
+  else if(cnames[i] == "OCUHOM"){
+    nombresN[i] <- "CIUOHOM"
+  }
+  else if(cnames[i] == "OCUMUJ"){
+    nombresN[i] <- "CIUOMUJ"
+  }
+  else if(cnames[i] == "GETHOM"){
+    nombresN[i] <- "PUEHOM"
+  }
+  else if(cnames[i] == "GETMUJ"){
+    nombresN[i] <- "PUEMUJ"
+  }
+  else{
+    nombresN[i] <- cnames[i]
+  }
+}
+colnames(datos2012) <- nombresN
+datos2012$AÑOOCU <- ifelse(datos2012$AÑOOCU == 'None', 2012, datos2012$AÑOOCU)
+
 ```
+
+
 
 
 
