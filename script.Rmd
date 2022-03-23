@@ -168,8 +168,10 @@ NUNUMU <- rnorm(nrow(datos2014))
 datos2014 <- cbind(datos2014, NUNUMU)
 datos2014$NUNUMU <- "NA"
 
-#drop x
-datos2014$X <- NULL
+#Agregar columna anoocu
+AÑOOCU <- rnorm(nrow(datos2014))
+datos2014 <- cbind(datos2014, AÑOOCU)
+datos2014$AÑOOCU <- "None"
 ```
 
 
@@ -195,8 +197,10 @@ NUNUMU <- rnorm(nrow(datos2013))
 datos2013 <- cbind(datos2013, NUNUMU)
 datos2013$NUNUMU <- "NA"
 
-#drop x
-datos2013$X <- NULL
+#Agregar columna anoocu
+AÑOOCU <- rnorm(nrow(datos2013))
+datos2013 <- cbind(datos2013, AÑOOCU)
+datos2013$AÑOOCU <- "None"
 ```
 
 
