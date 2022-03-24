@@ -241,10 +241,9 @@ library(foreign)
 
 datos2013 <- read_sav("./SAVS/2013M.sav")
 
-#-------------------------Modificaciones 2013------------------------
+#-------------------------Modificaciones 2013 matrimonios------------------------
 #columnas a crear para año 2013: NUNUHO, NUNUMU
 #no hay columnas para cambiar 
-#columnas por borrar: x
 
 #NUNUHO
 NUNUHO <- rnorm(nrow(datos2013))
@@ -256,8 +255,6 @@ NUNUMU <- rnorm(nrow(datos2013))
 datos2013 <- cbind(datos2013, NUNUMU)
 datos2013$NUNUMU <- "NA"
 
-#drop x
-datos2013$X <- NULL
 ```
 
 ```{r}
@@ -266,10 +263,9 @@ library(foreign)
 
 datos2014 <- read_sav("./SAVS/2014M.sav")
 
-#-------------------------Modificaciones 2014------------------------
+#-------------------------Modificaciones 2014 matrimonios------------------------
 #columnas a crear para año 2014: NUNUHO, NUNUMU
 #no hay comunas para cambiar 
-#columnas por borrar: x
 
 #NUNUHO
 NUNUHO <- rnorm(nrow(datos2014))
@@ -287,6 +283,92 @@ datos2014 <- cbind(datos2014, AÑOOCU)
 datos2014$AÑOOCU <- "None"
 ```
 
+```{r}
+library(haven)
+library(foreign)
+
+datosN2013 <- read_sav("./SAVS/2013N.sav")
+
+#-------------------------Modificaciones 2013 nacimientos------------------------
+#columnas a crear para año 2013: TIPOINS, AÑOOCU, VIAPAR 
+#columnas a cambiar: CIUPAD - OCUPAP / CIUMAD - OCUPAM
+#columnas a borrar: NACIOP, ESCOLAP, NACIOM 
+
+#TIPOINS
+TIPOINS <- rnorm(nrow(datosN2013))
+datosN2013 <- cbind(datosN2013,TIPOINS)
+datosN2013$TIPOINS <- "None"
+
+#AÑOOCU
+AÑOOCU <- rnorm(nrow(datosN2013))
+datosN2013 <- cbind(datosN2013,AÑOOCU)
+datosN2013$AÑOOCU <- "None"
+
+#VIAPAR
+VIAPAR <- rnorm(nrow(datosN2013))
+datosN2013 <- cbind(datosN2013,VIAPAR)
+datosN2013$VIAPAR <- "None"
+
+#cambio de nombre de columnas
+cnames <- colnames(datosN2013)
+nombresN = c()
+for(i in 1:length(cnames)){
+  if(cnames[i] == "CIUPAD"){
+    nombresN[i] <- "OCUPAP"
+  }
+  else if(cnames[i] == "CIUMAD"){
+    nombresN[i] <- "OCUPAM"
+  }
+  else{
+    nombresN[i] <- cnames[i]
+  }
+}
+colnames(datosN2013) <- nombresN
+
+#drop NACIOP
+datosN2013$NACIOP <- NULL
+
+#drop ESCOLAP
+datosN2013$ESCOLAP <- NULL
+
+#drop NACIOM
+datosN2013$NACIOM <- NULL
+```
+
+```{r}
+library(haven)
+library(foreign)
+
+datosN2014 <- read_sav("./SAVS/2014N.sav")
+
+#-------------------------Modificaciones 2014 nacimientos------------------------
+#columnas a crear para año 2013: TIPOINS, AÑOOCU, VIAPAR, OCUPAP
+#columnas a cambiar: NA
+#columnas a borrar: CIUMAD  
+
+#TIPOINS
+TIPOINS <- rnorm(nrow(datosN2014))
+datosN2014 <- cbind(datosN2014,TIPOINS)
+datosN2014$TIPOINS <- "None"
+
+#AÑOOCU
+AÑOOCU <- rnorm(nrow(datosN2014))
+datosN2014 <- cbind(datosN2014,AÑOOCU)
+datosN2014$AÑOOCU <- "None"
+
+#VIAPAR
+VIAPAR <- rnorm(nrow(datosN2014))
+datosN2014 <- cbind(datosN2014,VIAPAR)
+datosN2014$VIAPAR <- "None"
+
+#OCUPAP
+OCUPAP <- rnorm(nrow(datosN2014))
+datosN2014 <- cbind(datosN2014,OCUPAP)
+datosN2014$OCUPAP <- "None"
+
+#drop CIUMAD
+datosN2014$CIUMAD <- NULL
+```
 
 
 ```{r}
