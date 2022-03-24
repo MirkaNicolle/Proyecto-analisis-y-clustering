@@ -180,6 +180,59 @@ datosNacim2011$PAISNACM <- "None"
 #ELIMINAMOS LAS COLUMNAS EXTRAS
 
 datosNacim2011 = datosNacim2011[,!(names(datosNacim2011) %in% c("AREAG","GRETNP", "NACIOP","GRUPETMA","NACIOM"))]
+
+#CAMBIOS DE BASE NACIMIENTOS 2012 PARA QUE SEA SIMILAR A 2019
+#Poner todas en uppercase 2012
+cnames <- colnames(datosNacim2012)
+mayu2011 = c()
+for (i in 1:length(cnames)){
+  mayu2011[i] <- toupper(cnames[i])  
+}
+colnames(datosNacim2012)<-mayu2011
+
+#Cambiar MUPNAP a MUNPNAP
+cnames <- colnames(datosNacim2012)
+nombresN = c()
+for(i in 1:length(cnames)){
+  if(cnames[i] == "MUPNAP"){
+    nombresN[i] <- "MUNPNAP"
+  }
+}
+#AGREGAR LAS COLUMNAS FALTANTES Y LLENARLAS DE NONE
+TIPOINS <- rnorm(nrow(datosNacim2012))
+datosNacim2012 <- cbind(datosNacim2012, TIPOINS)
+datosNacim2012$TIPOINS <- "None"
+
+VIAPAR <- rnorm(nrow(datosNacim2012))
+datosNacim2012 <- cbind(datosNacim2012, VIAPAR)
+datosNacim2012$VIAPAR <- "None"
+
+PAISREP <- rnorm(nrow(datosNacim2012))
+datosNacim2012 <- cbind(datosNacim2012, PAISREP)
+datosNacim2012$PAISREP <- "None"
+
+PUEBLOPP <- rnorm(nrow(datosNacim2012))
+datosNacim2012 <- cbind(datosNacim2012, PUEBLOPP)
+datosNacim2012$PUEBLOPP <- "None"
+
+PAISNACP <- rnorm(nrow(datosNacim2012))
+datosNacim2012 <- cbind(datosNacim2012, PAISNACP)
+datosNacim2012$PAISNACP <- "None"
+
+PAISREM <- rnorm(nrow(datosNacim2012))
+datosNacim2012 <- cbind(datosNacim2012, PAISREM)
+datosNacim2012$PAISREM <- "None"
+
+PUEBLOPM <- rnorm(nrow(datosNacim2012))
+datosNacim2012 <- cbind(datosNacim2012, PUEBLOPM)
+datosNacim2012$PUEBLOPM <- "None"
+
+PAISNACM <- rnorm(nrow(datosNacim2012))
+datosNacim2012 <- cbind(datosNacim2012, PAISNACM)
+datosNacim2012$PAISNACM <- "None"
+#ELIMINAMOS LAS COLUMNAS EXTRAS
+
+datosNacim2012 = datosNacim2012[,!(names(datosNacim2012) %in% c("AREAG","GRETNP", "NACIOP","GRUPETMA","NACIOM"))]
 ```
 
 ```{r}
