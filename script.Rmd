@@ -32,7 +32,7 @@ library(foreign)
 datos2011 <- read_sav("D:\\Universidad\\mineria de datos\\ProyectoMineria1\\Proyecto-analisis-y-clustering\\SAVS\\20111.sav")
 datos2012 <- read_sav("D:\\Universidad\\mineria de datos\\ProyectoMineria1\\Proyecto-analisis-y-clustering\\SAVS\\20122.sav")
 datosNacim2011 <- read_sav("D:\\Universidad\\mineria de datos\\ProyectoMineria1\\Proyecto-analisis-y-clustering\\SAVS\\2011N.sav")
-datosNacim2012 <- read_sav("D:\\Universidad\\mineria de datos\\ProyectoMineria1\\Proyecto-analisis-y-clustering\\SAVS\\2012N.sav")
+datosNacim2012 <- read_sav("D:\\Universidad\\mineria de datos\\ProyectoMineria1\\Proyecto-analisis-y-clustering\\SAVS\\nacim2012.sav")
 datos2019 <- read_sav("D:\\Universidad\\mineria de datos\\ProyectoMineria1\\Proyecto-analisis-y-clustering\\SAVS\\2019.sav")
 
 #---------------------Modificaciones 2011----------------------
@@ -116,10 +116,18 @@ colnames(datos2012) <- nombresN
 
 #-------------------------Modificaciones 2019------------------------
 #Agregar columna areagocu
+#Poner todas en uppercase 2019
 AREAGOCU <- rnorm(nrow(datos2019))
 datos2019 <- cbind(datos2019, AREAGOCU)
 datos2019$AREAGOCU <- "None"
 
+#-------------------------Modificaciones Nacimientos 2019------------------------
+cnames <- colnames(datosNacim2019)
+mayu2011 = c()
+for (i in 1:length(cnames)){
+  mayu2011[i] <- toupper(cnames[i])  
+}
+colnames(datosNacim2019)<-mayu2011
 #CAMBIOS DE BASE NACIMIENTOS 2011 PARA QUE SEA SIMILAR A 2019
 #Poner todas en uppercase 2011
 cnames <- colnames(datosNacim2011)
