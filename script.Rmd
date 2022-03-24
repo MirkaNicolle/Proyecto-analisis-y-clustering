@@ -220,7 +220,7 @@ datos2015 <- read_sav("./SAVS/2015M.sav")
 library(haven)
 library(foreign)
 
-datos2015N <- read_sav("./SAVS/2015N.sav")
+datosNacim2015 <- read_sav("./SAVS/2015N.sav")
 
 #NO FUE NECESARIO REALIZAR CAMBIOS
 
@@ -231,12 +231,78 @@ datos2015N <- read_sav("./SAVS/2015N.sav")
 library(haven)
 library(foreign)
 
-datos2016N <- read_sav("./SAVS/2016N.sav")
+datosNacim2016 <- read_sav("./SAVS/2016N.sav")
 
 #NO FUE NECESARIO REALIZAR CAMBIOS
 
 ```
 
+```{r}
+library(haven)
+library(foreign)
+
+datos2016 <- read_sav("./SAVS/2016M.sav")
+
+#NO FUE NECESARIO REALIZAR CAMBIOS
+
+```
+
+```{r}
+library(haven)
+library(foreign)
+
+datosNacim2019 <- read_sav("./2019N.sav")
+
+#NO FUE NECESARIO REALIZAR CAMBIOS
+
+```
+
+```{r}
+#UNIMOS LAS BASES DE MATRIMONIOS DEL 2011 AL 2016
+#---------- Ya con todas las bases con las mismas columnas (cant columnas y nombres) podemos unirlas 
+
+install.packages("sf")
+library(dplyr)
+library(sf)
+#------------------------Unión de las bases-------------------------
+datos2011 <- datos2011 %>%
+  mutate_if(is.labelled,list(as_factor))
+datos2012 <- datos2012 %>%
+  mutate_if(is.labelled,list(as_factor))
+datos2013 <- datos2013 %>%
+  mutate_if(is.labelled,list(as_factor))
+datos2014 <- datos2014 %>%
+  mutate_if(is.labelled,list(as_factor))
+datos2015 <- datos2015 %>%
+  mutate_if(is.labelled,list(as_factor))
+datos2016 <- datos2016 %>%
+  mutate_if(is.labelled,list(as_factor))
+
+l = list(datos2011,datos2012,datos2013,datos2014,datos2015,datos2016)
+datosMatrimonio <- do.call("rbind",l)
+datosMatrimonio$EDADHOM <- as.numeric(factor(datosMatrimonio$EDADHOM))
+datosMatrimonio$EDADMUJ <- as.numeric(factor(datosMatrimonio$EDADMUJ))
+
+datosMatrimonio$ESCHOM <- ifelse(datosMatrimonio$ESCHOM == "DIversificado","Diversificado",datosMatrimonio$ESCHOM)
+datosMatrimonio$ESCHOM <- ifelse(datosMatrimonio$ESCHOM == "Post Grado","Universitario",datosMatrimonio$ESCHOM)
+datosMatrimonio$ESCHOM <- ifelse(datosMatrimonio$ESCHOM == "Postgrado","Universitario",datosMatrimonio$ESCHOM)
+datosMatrimonio$ESCMUJ <- ifelse(datosMatrimonio$ESCMUJ == "DIversificado","Diversificado",datosMatrimonio$ESCMUJ)
+datosMatrimonio$ESCMUJ <- ifelse(datosMatrimonio$ESCMUJ == "Post Grado","Universitario",datosMatrimonio$ESCMUJ)
+datosMatrimonio$ESCMUJ <- ifelse(datosMatrimonio$ESCMUJ == "Postgrado","Universitario",datosMatrimonio$ESCMUJ)
 
 
+datosMatrimonio$DEPOCU <- levels(datosMatrimonio$DEPOCU)[datosMatrimonio$DEPOCU]
+datosMatrimonio$DEPOCU <- ifelse(datosMatrimonio$DEPOCU == "Totonicapán","Totonicapan",datosMatrimonio$DEPOCU)
+datosMatrimonio$DEPOCU <- ifelse(datosMatrimonio$DEPOCU == "Petén","Peten",datosMatrimonio$DEPOCU)
+datosMatrimonio$DEPOCU <- factor(datosMatrimonio$DEPOCU)
+
+
+datosMatrimonio$PUEHOM <- levels(datosMatrimonio$PUEHOM)[datosMatrimonio$PUEHOM]
+datosMatrimonio$PUEMUJ <- levels(datosMatrimonio$PUEMUJ)[datosMatrimonio$PUEMUJ]
+datosMatrimonio$PUEHOM <- ifelse(datosMatrimonio$PUEHOM == "No Indigena", "No indigena",datosMatrimonio$PUEHOM)
+datosMatrimonio$PUEMUJ <- ifelse(datosMatrimonio$PUEMUJ == "No Indigena", "No indigena",datosMatrimonio$PUEMUJ)
+datosMatrimonio$PUEHOM <- factor(datosMatrimonio$PUEHOM)
+datosMatrimonio$PUEMUJ <- factor(datosMatrimonio$PUEMUJ)
+
+```
 
