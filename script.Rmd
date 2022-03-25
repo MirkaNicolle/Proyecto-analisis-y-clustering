@@ -1003,3 +1003,55 @@ library(ggplot2)
 barplot(table(nacimientos2019$Edadm), main = "Edad de madres en nacimientos 2019", xlab = "Edad", ylab = "Cantidad", col = "steelblue" , border = "pink")
 ```
 
+```{r}
+library(haven)
+library(dplyr)
+X20111 <- read_sav("SAVS/20111.sav")
+
+X20122 <- read_sav("SAVS/20122.sav")
+
+X2013 <- read_sav("SAVS/2013M.sav")
+
+X2014 <- read_sav("SAVS/2014M.sav")
+
+X2015 <- read_sav("SAVS/2015M.sav")
+
+X2016 <- read_sav("SAVS/2016M.sav")
+
+X2017 <- read_sav("SAVS/2017M.sav")
+
+X2018 <- read_sav("SAVS/2018M.sav")
+
+X2019 <- read_sav("SAVS/2017M.sav")
+
+datos2011 <- sum(X20111$Edadmuj < 18)
+
+datos2012 <- sum(X20122$EDADMUJ < 18)
+
+datos2013 <- sum(X2013$EDADMUJ < 18)
+
+datos2014 <- sum(X2014$EDADMUJ < 18)
+
+datos2015 <- sum(X2015$EDADMUJ < 18)
+
+datos2016 <- sum(X2016$EDADMUJ < 18)
+
+datos2017 <- sum(X2017$EDADMUJ < 18)
+
+datos2018 <- sum(X2018$EDADMUJ < 18)
+
+datos2019 <- sum(X2019$EDADMUJ < 18)
+
+library(ggplot2)
+df <- data.frame (año  = c("2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019"),
+                  matrimonios = c(datos2011, datos2012, datos2013, datos2014, datos2015, datos2016, datos2017, datos2018, datos2019)
+                  )
+print(df)
+
+ggplot(df, aes(x=año, y=matrimonios, group = 1)) + 
+  geom_point(size = 2, color = "green") + 
+  geom_line(color="green") +
+  labs(x = "Año", y = "Matrimonios menores de edad", title = "cantidad de matrimonios menores de edad de 2011 al 2019")
+```
+
+Como podemos ver en nuestra grafica de tendencia, y la tabla de matrimonios, se puede ver que en los años donde hay mayores matrimonios en menores de edad, es en los años 2011 y 2012, luego fue bajando hasta el año 2016 donde se tubo 65 matrimonios reportados, un año antes de la prohibicion de matrimonios en menores de edad, luego se mantuvo bajo, en 2018 no se reportaron matrimonios en menores de edad, pero en 2019 se reportaron 22 matrimonios.  
