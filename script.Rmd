@@ -914,4 +914,64 @@ coul <- brewer.pal(8,"Set2")
 counts <- table(menorEdadGraph$AÑOOCU)
 barplot(counts, las = 1, cex.names=.8 , xlab = "Año de ocurrencia", col = coul)
 ``` 
+```{r Preprocesamiento, echo=FALSE}
+menorEdad$AÑOOCU <- as.numeric(factor(menorEdad$AÑOOCU))
+datosClustering <- menorEdad[,c(4,6,7,19)]
+summary(datosClustering)
+```
+Se trabajará con las siguientes variables que tienen formato int para formas grupos: AÑOREG, ALOOCU, EDADHOM,EDADMUJ. Esto debido a que son variables que se pueden clasificar por grupos y los resultados pueden ser interpretados.
+
+## Mixture of gaussians
+```{r gaussians, echo = FALSE}
+library(mclust)
+mc<-Mclust(datosClustering[,1:4],4)
+plot(mc, what = "classification", main="MClust Classification")
+datosClustering$mxGau<-mc$classification
+g1PMC<-datosClustering[datosClustering$mxGau==1,]
+g2PMC<-datosClustering[datosClustering$mxGau==2,]
+g3PMC<-datosClustering[datosClustering$mxGau==3,]
+g4PMC<-datosClustering[datosClustering$mxGau==4,]
+```
+Se puede observar cómo los datos se encuentran divididos en 4 grupos, verde, rojo, azul y negro, en donde todos los grupos, excepto el azul, parecen estar bastante concentrados en un punto.
+
+## Evaluación de la tendencia de agrupamiento:
+
+En esté análisis de datos consiste en examinar si los datos son agrupables, es decir, si los datos contienen cualquier estructura de agrupación inherente. Esto debe comprobarse antes de aplicar el análisis de agrupación.
+
+Hopkins estadística: si el valor de Hopkins estadística está cerca de cero muy por debajo de 0,5, entonces podemos concluir que el conjunto de datos es significativamente clusterable.
+VAT evaluación visual de la tendencia de agrupamiento: la cubeta detecta la tendencia de agrupamiento en una forma visual contando el número de bloques oscuros o coloreados de forma cuadrada a lo largo de la diagonal en una imagen de rectangulos.
+
+### En hombres
+
+```{r Evaluacion de la tendencia de agrupamiento:cluster jerarquico, echo=FALSE}
+clarax <- clara(datosMatrimonio$EDADMUJ , 3)
+# Cluster plot
+  
+plot(silhouette(clarax),  col = 2:3, main = "Silhouette plot")  
+```
+
+### En mujeres
+
+```{r elegir los algoritmos de agrupación apropiados, echo=FALSE}
+clorax <- clara(datosMatrimonio$EDADHOM , 3)
+# Cluster plot
+plot(silhouette(clorax),  col = 2:3, main = "Silhouette plot")
+```
+
+## Conclusiones:
+
+La ley guatemalteca, establece la mayoría de edad, como determinante de la libre
+aptitud para contraer matrimonio, no obstante, por medio de la simple autorización de
+los padres, tutores o padres adoptivos en su caso, o un Juez a través de la dispensa
+judicial, los menores de edad pueden contraer matrimonio civil, a los 16 años los
+varones, y a los 14 las mujeres. A través de los datos analizados, se han podido observar la gran cantida de matrimonios con ambos o un individuo menores de edad por ende es una realidad que se utiliza de manera recurrente la autorización de los padres para poder contraer matrimonio cuando aún no se ha cumplido la mayoría de edad. Esto no significa que la autorización de los padres sea cien por ciento veridica o no forzada. 
+
+Durante la experiencia en el análsis, ha dejado ver muchos casos en los que aunque uno, o los dos contrayentes son menores de edad, han logrado realizar los fines del matrimonio,
+especialmente en cuanto a permanencia, fidelidad y auxilio mutuo, por lo que no
+debe negárseles indiscriminadamente su derecho, pero también es cierto, que las
+épocas han cambiado, y en la actualidad, los matrimonios entre adolescentes son
+más propensos a la separación, o al divorcio al enfrentar situaciones adversas. Esto conlleva a analizar los posibles matrimonios infantiles y es que este se considera una
+forma de matrimonio forzoso, ya que no se cuenta con el consentimiento pleno, libre e informado de una de las partes o de ninguna de ellas.
+
+Dentro de la información generada a partir de los datos del INE, sobre los años de las mujeres que han contraido matrimonio de 12 a 25 años de edad se observa que, en la categoría de casadas, los porcentajes más altos se encuentran en las mujeres del rango de 21 a 25 años, de igual manera en la categoría de alguna vez unida o casada, las mujeres en este rango de edad, representan más del 70%. Un 10% de quienes responden que están casadas son niñas y adolescentes del rango de 15 a 17 años, mientras que el 25.4% en esta categoría de casadas pertenece al rango de mujeres de 18 a 20 años. Se destaca que las más jóvenes, adolescentes de 12 a 14 años, representan un 3.5% de la categoría haber estado alguna vez casadas. Estos datos han variado a partir de las reformas impuestas en Reforma el artículo 81 del Código Civil, Decreto Ley 106, artículos: 81, relativo a la aptitud para contraer matrimonio y establece que la edad mínima para contraer matrimonio es de 18 años; 82, relativo a la excepción a la edad mínima y la establece en 16 años, cuando concurran razones fundadas; 84, relativo a la autorización judicial para que los menores de edad puedan contraer matrimonio; 177 en el que prohíbe la unión de menores de edad.Publicada el Lunes, 23 de noviembre del 2015.
 
