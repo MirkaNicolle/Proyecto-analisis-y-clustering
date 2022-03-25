@@ -1,0 +1,119 @@
+---
+title: "Histograms"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+library(haven)
+library(foreign)
+
+set.seed(123)
+
+nacimientos2011 <- read_sav("./SAVS/2011N.sav")
+nacimientos2012 <- read_sav("./SAVS/2012Nacimientos.sav")
+nacimientos2013 <- read_sav("./SAVS/2013N.sav")
+nacimientos2014 <- read_sav("./SAVS/2014N.sav")
+nacimientos2015 <- read_sav("./SAVS/2015N.sav")
+nacimientos2016 <- read_sav("./SAVS/2016N.sav")
+nacimientos2017 <- read_sav("./SAVS/2017N.sav")
+nacimientos2018 <- read_sav("./SAVS/2018N.sav")
+nacimientos2019 <- read_sav("./SAVS/2019N.sav")
+
+
+
+```
+
+
+
+#Histograma nacimientos 2011
+```{r}
+library(dplyr)
+library(ggplot2)
+barplot(table(nacimientos2011$Edadm), main = "Edad de madres en nacimientos 2011", xlab = "Edad", ylab = "Cantidad", col = "steelblue" , border = "pink")
+```
+
+#Histograma nacimientos 2012
+```{r}
+library(dplyr)
+library(ggplot2)
+barplot(table(nacimientos2012$Edadm), main = "Edad de madres en nacimientos 2012", xlab = "Edad", ylab = "Cantidad", col = "steelblue" , border = "pink")
+```
+
+
+#Histograma nacimientos 2013
+```{r}
+library(dplyr)
+library(ggplot2)
+barplot(table(nacimientos2013$Edadm), main = "Edad de madres en nacimientos 2013", xlab = "Edad", ylab = "Cantidad", col = "steelblue" , border = "pink")
+```
+
+#Histograma nacimientos 2014
+```{r}
+library(dplyr)
+library(ggplot2)
+barplot(table(nacimientos2014$Edadm), main = "Edad de madres en nacimientos 2014", xlab = "Edad", ylab = "Cantidad", col = "steelblue" , border = "pink")
+```
+
+#Histograma nacimientos 2015
+```{r}
+library(dplyr)
+library(ggplot2)
+barplot(table(nacimientos2015$Edadm), main = "Edad de madres en nacimientos 2015", xlab = "Edad", ylab = "Cantidad", col = "steelblue" , border = "pink")
+```
+
+#Histograma nacimientos 2016
+```{r}
+library(dplyr)
+library(ggplot2)
+barplot(table(nacimientos2016$Edadm), main = "Edad de madres en nacimientos 2016", xlab = "Edad", ylab = "Cantidad", col = "steelblue" , border = "pink")
+```
+
+#Histograma nacimientos 2017
+```{r}
+library(dplyr)
+library(ggplot2)
+barplot(table(nacimientos2017$Edadm), main = "Edad de madres en nacimientos 2017", xlab = "Edad", ylab = "Cantidad", col = "steelblue" , border = "pink")
+```
+
+
+#Histograma nacimientos 2018
+```{r}
+library(dplyr)
+library(ggplot2)
+barplot(table(nacimientos2018$Edadm), main = "Edad de madres en nacimientos 2018", xlab = "Edad", ylab = "Cantidad", col = "steelblue" , border = "pink")
+```
+
+
+#Histograma nacimientos 2019
+```{r}
+library(dplyr)
+library(ggplot2)
+barplot(table(nacimientos2019$Edadm), main = "Edad de madres en nacimientos 2019", xlab = "Edad", ylab = "Cantidad", col = "steelblue" , border = "pink")
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
