@@ -14,6 +14,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
+install.packages("tidyverse")
+library(tidyverse)
 library(haven)
 library(foreign)
 #Lectura y conversion de los .SAV
@@ -495,8 +497,11 @@ datosMatrimonio$DEPOCU <- factor(datosMatrimonio$DEPOCU)
 
 datosMatrimonio$PUEHOM <- levels(datosMatrimonio$PUEHOM)[datosMatrimonio$PUEHOM]
 datosMatrimonio$PUEMUJ <- levels(datosMatrimonio$PUEMUJ)[datosMatrimonio$PUEMUJ]
+
 datosMatrimonio$PUEHOM <- ifelse(datosMatrimonio$PUEHOM == "No Indigena", "No indigena",datosMatrimonio$PUEHOM)
 datosMatrimonio$PUEMUJ <- ifelse(datosMatrimonio$PUEMUJ == "No Indigena", "No indigena",datosMatrimonio$PUEMUJ)
+
+
 datosMatrimonio$PUEHOM <- factor(datosMatrimonio$PUEHOM)
 datosMatrimonio$PUEMUJ <- factor(datosMatrimonio$PUEMUJ)
 
@@ -628,3 +633,97 @@ qqline(datosMatrimonio$EDADMUJ, col="red")
 Como puede observarse, los valores en este diagrama evidentemente no siguen con una distribución normal ya que no esán sobre la linea de tendencia, por lo que la edad de las mujeres en el matrimonio no sigue una distribución normal.
 
 En conclusión, la edad de las mujeres en el matrimonio no sigue una distribución normal.
+
+#-----------------------------------------------------#
+## Tabla de frecuencias para variables cualitativas
+
+### Tabla de frecuencias para el departamento de ocurrencia y representación gráfica
+
+```{r frecuenciaDepartamento, echo=FALSE}
+table(datosMatrimonio$DEPOCU)
+counts <- table(datosMatrimonio$DEPOCU)
+barplot(counts, las = 2, cex.names=.5 ,main = "Distribución de departamento de ocurrencia", xlab = "Departamento de ocurrencia")
+```
+
+Como puede observarse, el departamento en el que suele haber más matrimonios es en Guatemala, seguido por Huehuetenango y luego por Alta Verapaz.
+
+### Tabla de frecuencias para el municipio de ocurrencia
+
+```{r frecuenciaMunicipio, echo=FALSE}
+#MuniOcurren <- data.frame(table(do.call(c, lapply(datosMatrimonio$MUPOCU, function(x) unlist(strsplit(x, "\\|"))))))
+table(datosMatrimonio$MUPOCU)
+counts <- table(datosMatrimonio$MUPOCU)
+barplot(counts, las = 2, cex.names=.5 ,main = "Distribución de municipio de ocurrencia", xlab = "Municipio de ocurrencia")
+```
+
+De la misma manera, es Guatemala el municipio que cuenta con la mayor cantidad de matrimonios.
+
+### Tabla de frecuencias para la escolaridad del hombre
+
+```{r frecuenciaEscolaridadHombre, echo=FALSE}
+#EscolHom <- data.frame(table(do.call(c, lapply(datosMatrimonio$ESCHOM, function(x) unlist(strsplit(x, "\\|"))))))
+table(datosMatrimonio$ESCHOM)
+counts <- table(datosMatrimonio$ESCHOM)
+barplot(counts, las = 1, cex.names=.8 ,main = "Distribución de escolaridad de los hombres", xlab = "Escolaridad del hombre")
+```
+
+Como puede observarse, el nivel de escolaridad más común entre los hombres es primaria, con 255,480 casos, mientras que el más bajo es el de post grado con 181 casos.
+
+### Tabla de frecuencias para la escolaridad de la Mujer
+
+```{r frecuenciaEscolaridadMujer, echo=FALSE}
+#EscolMuj <- data.frame(table(do.call(c, lapply(datosMatrimonio$ESCMUJ, function(x) unlist(strsplit(x, "\\|"))))))
+table(datosMatrimonio$ESCMUJ)
+counts <- table(datosMatrimonio$ESCMUJ)
+barplot(counts, las = 1, cex.names=.8 ,main = "Distribución de escolaridad de las mujeres", xlab = "Escolaridad de las mujeres")
+```
+
+Como puede observarse, el nivel de escolaridad más común entre las mujeres es primaria, con 222076 casos, mientras que el más bajo es el de post grado con 126 casos.
+
+### Tabla de frecuencias para el grupo étnico del hombre
+
+```{r frecuenciaEtniaHombre, echo=FALSE}
+#EtHom <- data.frame(table(do.call(c, lapply(datosMatrimonio$GETHOM, function(x) unlist(strsplit(x, "\\|"))))))
+table(datosMatrimonio$PUEHOM)
+counts <- table(datosMatrimonio$PUEHOM)
+barplot(counts, las = 2, cex.names=.8 ,main = "Distribución de etnia de los hombres", xlab = "Etnia del hombre")
+```
+
+Coomo puede observarse, el grupo étnico más común al que pertenecen los hombres en la base de datos es no indígena.
+
+### Tabla de frecuencias para el grupo étnico de la mujer
+
+```{r frecuenciaEtniaMujer, echo=FALSE}
+#EtHom <- data.frame(table(do.call(c, lapply(datosMatrimonio$GETMUJ, function(x) unlist(strsplit(x, "\\|"))))))
+table(datosMatrimonio$PUEMUJ)
+counts <- table(datosMatrimonio$PUEMUJ)
+barplot(counts, las = 2, cex.names=.8 ,main = "Distribución de etnia de las mujeres", xlab = "Etnia de las mujeres")
+```
+
+De la misma manera, puede observarse que el grupo étnico más común al que pertenecen las mujeres en la base de datos es no indígena.
+
+## Correlacion entre edades de los cónyuges
+
+```{r CorrelacionEdades, echo=FALSE}
+plot(x = datosMatrimonio$EDADHOM, y= datosMatrimonio$EDADMUJ, xlab= "Edad del Hombre", ylab= "Edad de la mujer", main = "Correlación entre las edades de los cónyuges")
+abline(lm(datosMatrimonio$EDADMUJ ~ datosMatrimonio$EDADHOM), col = "red")
+```
+
+Evidentemente no se puede observar correlación, sin embargo, es posible observar que hay hombres con edades muy altas con mujeres debajo de los 18 años,cabe mencionar que es importante filtrar los datos atipicos o norepresentativos del dataset
+
+Como se puede ver, existen muchos datos extraños dentro del data set, estudiándolo se ha encontrado una gran cantidad de 1's y otros datos en donde la edad de los "cónyuges" es incluso menor a 5 años, por lo que la presencia de estos datos nos ha llevado a buscar la naturaleza de las variables, por lo que revisando la lista de variables del INE de cada año, pudimos darnos cuenta que la edad más pequeña para mujeres durante los años fue 12 y de los hombres 14, por lo tanto se hizo un nuevo dataset para estudiar con precisión lo que deseamos estudiar. Se ha filtrado de la base de datos de matrimonios los valores en donde la edad de la mujer era menor a 18 (por el objetivo) y mayor a 12 años (para eliminar los datos no significativos o no lógicos), asimismo se filtró los datos en donde el hombre es menor a 14 años (de igual manera para eliminar esos datos confusos).
+
+```{r FiltroDeEdades, echo=FALSE}
+#datosMatrimonio$EDADMUJ <- as.numeric(factor(datosMatrimonio$EDADMUJ))
+menorEdadMuj <- datosMatrimonio %>% filter(EDADMUJ < 18)
+menorEdadMuj <- menorEdadMuj %>% filter(EDADMUJ >= 12)
+menorEdad <- menorEdadMuj %>% filter(EDADHOM >= 14)
+```
+
+
+```{r CorrEdadesFiltro, echo=FALSE}
+plot(x = menorEdad$EDADHOM, y= menorEdad$EDADMUJ, xlab= "Edad del Hombre", ylab= "Edad de la mujer", main = "Correlación entre las edades, mujeres menores de 18")
+abline(lm(menorEdad$EDADMUJ ~ menorEdad$EDADHOM), col = "red")
+```
+
+Filtrando los datos en donde las mujeres son menores a 18 años, es posible observar que una gran cantidad de mujeres se encuentran comprometidas con hombres mucho mayores a ellas, existen datos atípicos muy extensos y preocupantes, cabe mencionar que los datos que se encuentran en el fondo (muy pocos pero si existen) se encuentran así debido a que los datos no son indicados en el diagrama.
