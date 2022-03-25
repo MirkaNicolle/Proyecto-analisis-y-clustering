@@ -914,6 +914,8 @@ coul <- brewer.pal(8,"Set2")
 counts <- table(menorEdadGraph$AÑOOCU)
 barplot(counts, las = 1, cex.names=.8 , xlab = "Año de ocurrencia", col = coul)
 ``` 
+#CLUSTERING
+#PRODUCCION
 
 ```{r}
 library(haven)
