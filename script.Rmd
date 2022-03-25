@@ -542,6 +542,26 @@ str(datosMatrimonio)
 
 Las variables más interesantes para el porpósito de la investigación son las que proporcionan información de la fecha del matrimonio. Otras con gran potencial son las edades de los cónyuges, ya que con ellas podemos analizar cual es la tendencia de matrimonios de menores, diferencias de edades etc.
 
+## Análisis de variables cuantitativas
+### Registros de matrimonio
+#### Prueba de normalidad para  registros de matrimonios:
+
+```{r normalHist, echo=FALSE}
+#install.packages("ggplot2",repos = "http://cran.us.r-project.org")
+library (ggplot2)
+ggplot(data = datosMatrimonio, aes(x = AÑOREG)) + 
+  geom_histogram(aes(y=..density.., fill = ..count..))+
+  scale_fill_gradient(low = "#DCDCDC", high = "#7C7C7C")+
+  stat_function(fun = dnorm, colour = "firebrick",
+                args = list(mean = mean(datosMatrimonio$popularity),
+                            sd = sd(datosMatrimonio$popularity)))+
+  ggtitle("Histograma con curva normal teórica de los registros de matrimonios por año") + 
+  theme_bw()
+```  
+
+Como es de esperarse, no es posible observar que exista una relación en el histograma de registros de matrimonios con las reformas planteadas para la prohibición de matrimonios con menores de edad, ya que parece que la cantidad de matrimonios ha sido bastante constante durante los años. Según el histograma mostrado, la cantidad de matrimonios por año no sigue una distribución normal.
+
+
 ```{r normalBox, echo=FALSE}
 boxplot(datosMatrimonio$AÑOREG, main = "Caja y Bigotes de registro de matrimonios por año", xlab = "Registro por año")
 ```
