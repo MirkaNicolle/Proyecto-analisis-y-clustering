@@ -509,12 +509,6 @@ datos2013$AÑOOCU <- "None"
 ```
 
 
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> main
 ```{r}
 #UNIMOS LAS BASES DE MATRIMONIOS DEL 2011 AL 2016
 #---------- Ya con todas las bases con las mismas columnas (cant columnas y nombres) podemos unirlas 
