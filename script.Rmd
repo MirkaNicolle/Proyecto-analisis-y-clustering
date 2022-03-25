@@ -510,7 +510,7 @@ datos2013$AÑOOCU <- "None"
 #UNIMOS LAS BASES DE MATRIMONIOS DEL 2011 AL 2016
 #---------- Ya con todas las bases con las mismas columnas (cant columnas y nombres) podemos unirlas 
 
-install.packages("sf")
+#install.packages("sf")
 library(dplyr)
 library(sf)
 #------------------------Unión de las bases-------------------------
@@ -901,7 +901,7 @@ Donde:
 6: post grado
 7: doctorado
 9: ignorado
-```{r frecuenciaEscolaridadMujer, echo=FALSE}
+```{r frecuenciaEscolaridadMujer2, echo=FALSE}
 coul <- brewer.pal(8,"Set2")
 counts <- table(menorEdadGraph$ESCMUJ)
 barplot(counts, las = 1, cex.names=.8 , xlab = "Escolaridad de las mujeres", col = coul)
