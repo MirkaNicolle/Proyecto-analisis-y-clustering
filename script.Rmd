@@ -13,6 +13,62 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+
+
+```{r}
+library(haven)
+library(foreign)
+
+datos2015 <- read_sav("./SAVS/2015M.sav")
+
+#NO FUE NECESARIO REALIZAR CAMBIOS 
+
+```
+
+
+```{r}
+library(haven)
+library(foreign)
+
+datosNacim2015 <- read_sav("./SAVS/2015N.sav")
+
+#NO FUE NECESARIO REALIZAR CAMBIOS
+
+```
+
+
+```{r}
+library(haven)
+library(foreign)
+
+datosNacim2016 <- read_sav("./SAVS/2016N.sav")
+
+#NO FUE NECESARIO REALIZAR CAMBIOS
+
+```
+
+```{r}
+library(haven)
+library(foreign)
+
+datos2016 <- read_sav("./SAVS/2016M.sav")
+
+#NO FUE NECESARIO REALIZAR CAMBIOS
+
+```
+
+```{r}
+library(haven)
+library(foreign)
+
+datosNacim2019 <- read_sav("./2019N.sav")
+
+#NO FUE NECESARIO REALIZAR CAMBIOS
+
+```
+
+
 ```{r}
 install.packages("tidyverse")
 library(tidyverse)
@@ -31,11 +87,11 @@ library(foreign)
 # write.csv(matri2016 , 'matri2016 .csv')
 # 
 
-datos2011 <- read_sav("D:\\Universidad\\mineria de datos\\ProyectoMineria1\\Proyecto-analisis-y-clustering\\SAVS\\20111.sav")
-datos2012 <- read_sav("D:\\Universidad\\mineria de datos\\ProyectoMineria1\\Proyecto-analisis-y-clustering\\SAVS\\20122.sav")
-datosNacim2011 <- read_sav("D:\\Universidad\\mineria de datos\\ProyectoMineria1\\Proyecto-analisis-y-clustering\\SAVS\\2011N.sav")
-datosNacim2012 <- read_sav("D:\\Universidad\\mineria de datos\\ProyectoMineria1\\Proyecto-analisis-y-clustering\\SAVS\\nacim2012.sav")
-datos2019 <- read_sav("D:\\Universidad\\mineria de datos\\ProyectoMineria1\\Proyecto-analisis-y-clustering\\SAVS\\2019.sav")
+datos2011 <- read_sav("./SAVS/20111.sav")
+datos2012 <- read_sav("./SAVS/20122.sav")
+datosNacim2011 <- read_sav("./SAVS/2011N.sav")
+datosNacim2012 <- read_sav("./SAVS/nacim2012.sav")
+datos2019 <- read_sav("./SAVS/2019.sav")
 
 #---------------------Modificaciones 2011----------------------
 #Crear columnas en dataset 2011 NUNUHO, NUNUMU
@@ -398,60 +454,6 @@ datos2013$NUNUMU <- "NA"
 AÑOOCU <- rnorm(nrow(datos2013))
 datos2013 <- cbind(datos2013, AÑOOCU)
 datos2013$AÑOOCU <- "None"
-```
-
-
-
-```{r}
-library(haven)
-library(foreign)
-
-datos2015 <- read_sav("./SAVS/2015M.sav")
-
-#NO FUE NECESARIO REALIZAR CAMBIOS 
-
-```
-
-
-```{r}
-library(haven)
-library(foreign)
-
-datosNacim2015 <- read_sav("./SAVS/2015N.sav")
-
-#NO FUE NECESARIO REALIZAR CAMBIOS
-
-```
-
-
-```{r}
-library(haven)
-library(foreign)
-
-datosNacim2016 <- read_sav("./SAVS/2016N.sav")
-
-#NO FUE NECESARIO REALIZAR CAMBIOS
-
-```
-
-```{r}
-library(haven)
-library(foreign)
-
-datos2016 <- read_sav("./SAVS/2016M.sav")
-
-#NO FUE NECESARIO REALIZAR CAMBIOS
-
-```
-
-```{r}
-library(haven)
-library(foreign)
-
-datosNacim2019 <- read_sav("./2019N.sav")
-
-#NO FUE NECESARIO REALIZAR CAMBIOS
-
 ```
 
 
