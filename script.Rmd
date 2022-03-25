@@ -501,4 +501,130 @@ datosMatrimonio$PUEHOM <- factor(datosMatrimonio$PUEHOM)
 datosMatrimonio$PUEMUJ <- factor(datosMatrimonio$PUEMUJ)
 
 ```
+## Informe de análisis exploratorio 
 
+A continuación la explicación de qué representa cada una de las variables:
+DEPREG: departamento de registro
+MUPREG: municipio de registro
+MESREG: mes de registro
+AÑOREG: año de registro
+CLAUNI: clase de unión
+EDADHOM: edad del hombre
+EDADMUJ: edad de la mujer
+PUEHOM: etnia del hombre
+PUEMUJ: etnia de la mujer
+NACHOM: nacionalidad del hombre
+NACMUJ: nacionalidad de la mujer
+CIUOHOM: ocupación del hombre
+CIUOMUJ: ocupación de la mujer
+NUNUHO: número de nupcias del hombre
+NUNUMU: número de nupcias de la mujer
+DEPOCU: departamento de ocurrencia
+MUPOCU: municipio de ocurrencia
+MESOCU: mes de ocurrencia
+AÑOOCU: año de ocurrencia
+AREAGOCU: área geográfica de ocurrencia
+ESCHOM: escolaridad del hombre
+ESCMUJ: escolaridad de la mujer
+
+En el siguiente cuadro se muestra el tipo de dato de cada una de las variables mencionadas anteriormente:
+
+
+```{r data, echo=FALSE}
+#
+str(datosMatrimonio)
+```
+
+Las variables más interesantes para el porpósito de la investigación son las que proporcionan información de la fecha del matrimonio. Otras con gran potencial son las edades de los cónyuges, ya que con ellas podemos analizar cual es la tendencia de matrimonios de menores, diferencias de edades etc.
+
+```{r normalBox, echo=FALSE}
+boxplot(datosMatrimonio$AÑOREG, main = "Caja y Bigotes de registro de matrimonios por año", xlab = "Registro por año")
+```
+
+Como dicho anteriormente, no hay muchos grupos atípicos ya que se concentran dentro de un intervalo.Según este diagrama, sí se cuenta con normalidad en la cantidad de matrimonios por año.
+
+### Diagrama de qqnormal
+
+```{r normalQQ, echo=FALSE}
+qqnorm(datosMatrimonio$AÑOREG, col="blue")
+qqline(datosMatrimonio$AÑOREG, col="red")
+```
+
+Aunque en el diagrama qqnormal parece que se sigue una distribución normal al encontrarse muchos de los datos alineados, hay bastantes datos que se encuentran fuera de la linea de tendencia, por lo que no se cumple con normalidad en la cantidad de matrimonios por año.
+
+En conclusión, la cantidad de matrimonios por año no sigue una distribución normal.
+
+## Registros de Edad hombre
+### Prueba de normalidad para la edad del hombre:
+
+```{r normalHistEdadHombre, echo=FALSE}
+#install.packages("ggplot2",repos = "http://cran.us.r-project.org")
+library (ggplot2)
+ggplot(data = datosMatrimonio, aes(x = EDADHOM)) + 
+  geom_histogram(aes(y=..density.., fill = ..count..))+
+  scale_fill_gradient(low = "#DCDCDC", high = "#7C7C7C")+
+  stat_function(fun = dnorm, colour = "firebrick",
+                args = list(mean = mean(datosMatrimonio$EDADHOM),
+                            sd = sd(datosMatrimonio$EDADHOM)))+
+  ggtitle("Histograma con curva normal teórica de las edades de los hombres") + 
+  theme_bw()
+```  
+
+En este histograma se puede observar que los datos tienen relativamente forma de campana, sin embargo, es evidente que estos tienen un sesgo hacia la izquierda, esto quiere decir que usualmente la edad entre los hombres en un matrimonio se encuentra debajo de los 30. Sin embargo, es importante mencionar que como dato interesante se puede observar que hay casos de matrimonios en hombres de más de 75 años. 
+Debido al sesgo, la edad de los hombres en matrimonios no sigue una distribución normal.
+
+### Diagrama de caja y bigotes
+
+```{r normalBoxEdadHombre, echo=FALSE}
+boxplot(datosMatrimonio$EDADHOM, main = "Caja y Bigotes de edad de los hombres al casarse", xlab = "edad")
+```
+
+Se evidencia la gran cantidad de datos atípicos en el diagrama, se encuentran muy dispersos arriba de la media y del extremo superior que se encuentra al rededor de los 30 años. Esto quiere decir que la edad de los hombres en el matrimonio no sigue una distribución normal.
+
+### Diagrama qqnormal
+
+```{r normalQQEdadHombre, echo=FALSE}
+qqnorm(datosMatrimonio$EDADHOM, col="blue")
+qqline(datosMatrimonio$EDADHOM, col="red")
+```
+
+Como puede observarse, es muy notable en el diagrama qqnormal que los datos no siguen una distribución acorde a la linea de tendencia, esto quiere decir que la edad del hombre en el matrimonio no sigue una distribución normal.
+
+En conclusión, la edad de los hombres en el matrimonio no sigue una distribución normal.
+
+## Registros de edad de mujeres
+### Prueba de normalidad para la edad de la mujer:
+
+```{r normalHistEdadMuje, echo=FALSE}
+#install.packages("ggplot2",repos = "http://cran.us.r-project.org")
+library (ggplot2)
+ggplot(data = datosMatrimonio, aes(x = EDADMUJ)) + 
+  geom_histogram(aes(y=..density.., fill = ..count..))+
+  scale_fill_gradient(low = "#DCDCDC", high = "#7C7C7C")+
+  stat_function(fun = dnorm, colour = "firebrick",
+                args = list(mean = mean(datosMatrimonio$EDADMUJ),
+                            sd = sd(datosMatrimonio$EDADMUJ)))+
+  ggtitle("Histograma con curva normal teórica de las edades de las mujeres") + 
+  theme_bw()
+```  
+
+De la misma manera que en el histograma de hombres, hay una forma relativa de campana, sin embargo se nota un gran sesgo a la izquierda que demuestra que la edad de mujeres en el matrimonio suele ser debajo de los 25, aunque también se cuentan con algunos datos arriba de los 75 años. Debido al sesgo, la edad de mujeres en el matrimonio no sigue una distribución normal.
+
+### Diagrama de caja y bigotes
+
+```{r normalBoxEdadMujer, echo=FALSE}
+boxplot(datosMatrimonio$EDADMUJ, main = "Caja y Bigotes de edad de las mujeres al casarse", xlab = "edad")
+```
+
+En este diagrama de caja y bigotes es posible ver una gran cantidad de datos atípicos arriba del extremo superior que se encuentra al rededor de los 30 años, muy similar al diagrama de la edad de los hombres, por lo que de la misma manera no se cuenta con normalidad en la edad de las mujeres en el matrimonio.
+
+### Diagrama qqnormal
+
+```{r normalQQEdadMujer, echo=FALSE}
+qqnorm(datosMatrimonio$EDADMUJ, col="blue")
+qqline(datosMatrimonio$EDADMUJ, col="red")
+```
+
+Como puede observarse, los valores en este diagrama evidentemente no siguen con una distribución normal ya que no esán sobre la linea de tendencia, por lo que la edad de las mujeres en el matrimonio no sigue una distribución normal.
+
+En conclusión, la edad de las mujeres en el matrimonio no sigue una distribución normal.
