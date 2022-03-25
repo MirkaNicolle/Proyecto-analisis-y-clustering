@@ -745,20 +745,101 @@ abline(lm(menorEdad$EDADMUJ ~ menorEdad$EDADHOM), col = "red")
 
 Filtrando los datos en donde las mujeres son menores a 18 años, es posible observar que una gran cantidad de mujeres se encuentran comprometidas con hombres mucho mayores a ellas, existen datos atípicos muy extensos y preocupantes, cabe mencionar que los datos que se encuentran en el fondo (muy pocos pero si existen) se encuentran así debido a que los datos no son indicados en el diagrama.
 
-```{r}
-datosMatrimonio$`Escolaridad de la mujer`
-edadPareja<-subset(datosMatrimonio, select=c('Edad del hombre','Edad de la mujer','Escolaridad del hombre','Escolaridad de la mujer'),datosMatrimonio$`Edad de la mujer`!=999 & datosMatrimonio$`Edad del hombre`!=999)
-edadPareja$Juntos <- NA
-edadPareja$Juntos<-paste(edadPareja$`Edad del hombre`,edadPareja$`Edad de la mujer`)
-ask2<-edadPareja %>%
-  group_by(Juntos) %>%
-  tally()
-ask2<-ask2[order(-ask2$n),]
-ask2o<-head(ask2,n=10)
-pregunta2<-ggplot(data=ask2o, aes(x=reorder(Juntos,n), y=n, fill=Juntos)) +
-  geom_bar(stat="identity", position=position_dodge())+
-  geom_text(aes(label=n), vjust=1.6, color="black",
-            position = position_dodge(0.9), size=3.5)+
-  labs(title="Moda de las edades de las parejas en los 10 años registrados  ", x="Edades de las parejas", y="Cantidad de parejas ")
+## Departamentos en donde se llevan a cabo los matrimonios de mujeres menores de edad
+
+```{r tabla por departamentos del dataset, echo = FALSE}
+library(dplyr)
+library(magrittr)
+menorEdadGraph <- menorEdad %>% filter(EDADHOM >= 18)
+#departamentos
+table(menorEdadGraph$DEPOCU)
+counts <- table(menorEdadGraph$DEPOCU)
+barplot(counts, las = 2, cex.names=.6 ,main = "Departamentos con matrimonios con menores de edad", xlab = "Departamentos de ocurrencia")
 ```
 
+Puede observarse que muchos de estos matrimonios se llevan a cabo en el departamento de Guatemala, donde una gran población son ladinos.
+
+## Municipios en donde se llevan a cabo los matrimonios de mujeres menores de edad
+
+```{r tabla por municipios de casamientos, echo = FALSE}
+library(dplyr)
+library(magrittr)
+depMun <- (menorEdadGraph$MUPOCU)
+#departamentos
+table(depMun)
+counts <- table(menorEdadGraph$MUPOCU)
+barplot(counts, las = 2, cex.names=.5 ,main = "Municipios con matrimonios con menores de edad", xlab = "Municipios de ocurrencia")
+```
+
+De la misma manera, puede observarse que la mayor cantidad de ocurrencias se encuentra en Guatemala.
+
+## La etnia de la mujer en donde es más común este evento
+
+```{r tabla por etnia de la mujer, echo = FALSE}
+library(dplyr)
+library(magrittr)
+etniaMujer <- (menorEdadGraph$PUEMUJ)
+#departamentos
+table(etniaMujer)
+counts <- table(menorEdadGraph$PUEMUJ)
+barplot(counts, las = 2, cex.names=.8 ,main = "Etnia de mujeres involucradas en matrimonios con menores de edad", xlab = "Etnia de las mujeres")
+```
+
+Se puede observar que no hay una diferencia significativa en estos grupos, lo cual es importante para saber si el hecho de que ocurran los matrimonios con menores de edad, es algo que se ve influido por la cultura.
+
+## La etnia del hombre en donde es más común este evento
+
+```{r tabla por etnia del hombre, echo = FALSE}
+library(dplyr)
+library(magrittr)
+etniaHombre <- (menorEdadGraph$PUEHOM)
+#departamentos
+table(etniaHombre)
+counts <- table(menorEdadGraph$PUEHOM)
+barplot(counts, las = 2, cex.names=.8 ,main = "Etnia de hombres involucrados en matrimonios con menores de edad", xlab = "Etnia de los hombres")
+```
+
+
+Se puede observar que no hay una diferencia significativa en estos grupos, lo cual es importante para saber si el hecho de que ocurran los matrimonios con menores de edad, es algo que se ve influido por la cultura.
+
+## Escolaridad del hombre involucrado en este evento
+Donde:
+1: ninguno
+2: primaria
+3: basica
+4: diversificado
+5: universitario
+6: post grado
+7: doctorado
+9: ignorado
+
+```{r frecuenciaEscolaridadHombreMenor, echo=FALSE}
+library(RColorBrewer)
+coul <- brewer.pal(8,"Set2")
+counts <- table(menorEdadGraph$ESCHOM)
+barplot(counts, las = 1, cex.names=.8 , xlab = "Escolaridad del hombre", col = coul)
+```
+
+## Escolaridad de la mujer involucrada en este evento
+Donde:
+1: ninguno
+2: primaria
+3: basica
+4: diversificado
+5: universitario
+6: post grado
+7: doctorado
+9: ignorado
+```{r frecuenciaEscolaridadMujer, echo=FALSE}
+coul <- brewer.pal(8,"Set2")
+counts <- table(menorEdadGraph$ESCMUJ)
+barplot(counts, las = 1, cex.names=.8 , xlab = "Escolaridad de las mujeres", col = coul)
+```
+
+## Ocurrencia de matrimonios con menores de edad desde 2011 a 2019
+
+```{r matrimoniosMenorses, echo=FALSE}
+coul <- brewer.pal(8,"Set2")
+counts <- table(menorEdadGraph$AÑOOCU)
+barplot(counts, las = 1, cex.names=.8 , xlab = "Año de ocurrencia", col = coul)
+``` 
