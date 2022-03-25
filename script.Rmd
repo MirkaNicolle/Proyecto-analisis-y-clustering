@@ -659,6 +659,15 @@ barplot(counts, las = 2, cex.names=.5 ,main = "Distribución de municipio de ocu
 De la misma manera, es Guatemala el municipio que cuenta con la mayor cantidad de matrimonios.
 
 ### Tabla de frecuencias para la escolaridad del hombre
+Donde:
+1: ninguno
+2: primaria
+3: basica
+4: diversificado
+5: universitario
+6: post grado
+7: doctorado
+9: ignorado
 
 ```{r frecuenciaEscolaridadHombre, echo=FALSE}
 #EscolHom <- data.frame(table(do.call(c, lapply(datosMatrimonio$ESCHOM, function(x) unlist(strsplit(x, "\\|"))))))
@@ -670,6 +679,14 @@ barplot(counts, las = 1, cex.names=.8 ,main = "Distribución de escolaridad de l
 Como puede observarse, el nivel de escolaridad más común entre los hombres es primaria, con 255,480 casos, mientras que el más bajo es el de post grado con 181 casos.
 
 ### Tabla de frecuencias para la escolaridad de la Mujer
+1: ninguno
+2: primaria
+3: basica
+4: diversificado
+5: universitario
+6: post grado
+7: doctorado
+9: ignorado
 
 ```{r frecuenciaEscolaridadMujer, echo=FALSE}
 #EscolMuj <- data.frame(table(do.call(c, lapply(datosMatrimonio$ESCMUJ, function(x) unlist(strsplit(x, "\\|"))))))
@@ -727,3 +744,21 @@ abline(lm(menorEdad$EDADMUJ ~ menorEdad$EDADHOM), col = "red")
 ```
 
 Filtrando los datos en donde las mujeres son menores a 18 años, es posible observar que una gran cantidad de mujeres se encuentran comprometidas con hombres mucho mayores a ellas, existen datos atípicos muy extensos y preocupantes, cabe mencionar que los datos que se encuentran en el fondo (muy pocos pero si existen) se encuentran así debido a que los datos no son indicados en el diagrama.
+
+```{r}
+datosMatrimonio$`Escolaridad de la mujer`
+edadPareja<-subset(datosMatrimonio, select=c('Edad del hombre','Edad de la mujer','Escolaridad del hombre','Escolaridad de la mujer'),datosMatrimonio$`Edad de la mujer`!=999 & datosMatrimonio$`Edad del hombre`!=999)
+edadPareja$Juntos <- NA
+edadPareja$Juntos<-paste(edadPareja$`Edad del hombre`,edadPareja$`Edad de la mujer`)
+ask2<-edadPareja %>%
+  group_by(Juntos) %>%
+  tally()
+ask2<-ask2[order(-ask2$n),]
+ask2o<-head(ask2,n=10)
+pregunta2<-ggplot(data=ask2o, aes(x=reorder(Juntos,n), y=n, fill=Juntos)) +
+  geom_bar(stat="identity", position=position_dodge())+
+  geom_text(aes(label=n), vjust=1.6, color="black",
+            position = position_dodge(0.9), size=3.5)+
+  labs(title="Moda de las edades de las parejas en los 10 años registrados  ", x="Edades de las parejas", y="Cantidad de parejas ")
+```
+
