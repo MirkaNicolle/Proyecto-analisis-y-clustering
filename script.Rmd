@@ -14,6 +14,58 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
+library(haven)
+library(foreign)
+
+datos2015 <- read_sav("./SAVS/2015M.sav")
+
+#NO FUE NECESARIO REALIZAR CAMBIOS 
+
+```
+
+
+```{r}
+library(haven)
+library(foreign)
+
+datosNacim2015 <- read_sav("./SAVS/2015N.sav")
+
+#NO FUE NECESARIO REALIZAR CAMBIOS
+
+```
+
+
+```{r}
+library(haven)
+library(foreign)
+
+datosNacim2016 <- read_sav("./SAVS/2016N.sav")
+
+#NO FUE NECESARIO REALIZAR CAMBIOS
+
+```
+
+```{r}
+library(haven)
+library(foreign)
+
+datos2016 <- read_sav("./SAVS/2016M.sav")
+
+#NO FUE NECESARIO REALIZAR CAMBIOS
+
+```
+
+```{r}
+library(haven)
+library(foreign)
+
+datosNacim2019 <- read_sav("./2019N.sav")
+
+#NO FUE NECESARIO REALIZAR CAMBIOS
+
+```
+
+```{r}
 install.packages("tidyverse")
 library(tidyverse)
 library(haven)
@@ -402,57 +454,6 @@ datos2013$AÑOOCU <- "None"
 
 
 
-```{r}
-library(haven)
-library(foreign)
-
-datos2015 <- read_sav("./SAVS/2015M.sav")
-
-#NO FUE NECESARIO REALIZAR CAMBIOS 
-
-```
-
-
-```{r}
-library(haven)
-library(foreign)
-
-datosNacim2015 <- read_sav("./SAVS/2015N.sav")
-
-#NO FUE NECESARIO REALIZAR CAMBIOS
-
-```
-
-
-```{r}
-library(haven)
-library(foreign)
-
-datosNacim2016 <- read_sav("./SAVS/2016N.sav")
-
-#NO FUE NECESARIO REALIZAR CAMBIOS
-
-```
-
-```{r}
-library(haven)
-library(foreign)
-
-datos2016 <- read_sav("./SAVS/2016M.sav")
-
-#NO FUE NECESARIO REALIZAR CAMBIOS
-
-```
-
-```{r}
-library(haven)
-library(foreign)
-
-datosNacim2019 <- read_sav("./2019N.sav")
-
-#NO FUE NECESARIO REALIZAR CAMBIOS
-
-```
 
 
 ```{r}
@@ -863,3 +864,4 @@ coul <- brewer.pal(8,"Set2")
 counts <- table(menorEdadGraph$AÑOOCU)
 barplot(counts, las = 1, cex.names=.8 , xlab = "Año de ocurrencia", col = coul)
 ``` 
+
