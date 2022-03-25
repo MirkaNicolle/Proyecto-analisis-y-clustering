@@ -13,9 +13,6 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
-
-
 ```{r}
 library(haven)
 library(foreign)
@@ -122,7 +119,7 @@ datosNacim2019 <- read_sav("./2019N.sav")
 ```
 
 ```{r}
-install.packages("tidyverse")
+#install.packages("tidyverse")
 library(tidyverse)
 library(haven)
 library(foreign)
@@ -143,7 +140,7 @@ datos2011 <- read_sav("./SAVS/20111.sav")
 datos2012 <- read_sav("./SAVS/20122.sav")
 datosNacim2011 <- read_sav("./SAVS/2011N.sav")
 datosNacim2012 <- read_sav("./SAVS/nacim2012.sav")
-datos2019 <- read_sav("./SAVS/2019.sav")
+datos2019 <- read_sav("./SAVS/2019M.sav")
 
 #---------------------Modificaciones 2011----------------------
 #Crear columnas en dataset 2011 NUNUHO, NUNUMU
