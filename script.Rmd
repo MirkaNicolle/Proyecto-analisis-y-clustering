@@ -975,6 +975,7 @@ forma de matrimonio forzoso, ya que no se cuenta con el consentimiento pleno, li
 
 Dentro de la información generada a partir de los datos del INE, sobre los años de las mujeres que han contraido matrimonio de 12 a 25 años de edad se observa que, en la categoría de casadas, los porcentajes más altos se encuentran en las mujeres del rango de 21 a 25 años, de igual manera en la categoría de alguna vez unida o casada, las mujeres en este rango de edad, representan más del 70%. Un 10% de quienes responden que están casadas son niñas y adolescentes del rango de 15 a 17 años, mientras que el 25.4% en esta categoría de casadas pertenece al rango de mujeres de 18 a 20 años. Se destaca que las más jóvenes, adolescentes de 12 a 14 años, representan un 3.5% de la categoría haber estado alguna vez casadas. Estos datos han variado a partir de las reformas impuestas en Reforma el artículo 81 del Código Civil, Decreto Ley 106, artículos: 81, relativo a la aptitud para contraer matrimonio y establece que la edad mínima para contraer matrimonio es de 18 años; 82, relativo a la excepción a la edad mínima y la establece en 16 años, cuando concurran razones fundadas; 84, relativo a la autorización judicial para que los menores de edad puedan contraer matrimonio; 177 en el que prohíbe la unión de menores de edad.Publicada el Lunes, 23 de noviembre del 2015.
 
+
 #---------------------------Apartado de predición----------------------------------
 
 Con el fin de poder investigar más a fondo bajo que criterios es más probable que en un casamiento se encuentre implicada una mujer menor de edad (que en el análisis anterior se evidenció era más recurrente que los hombres) se decidió untilizar ML para poder predecir si dadas ciertas características una mujer será menor de edad en un matrimonio, para poder determinar en que lugares (o situaciones) debe ser atendido este problema.
@@ -1133,3 +1134,90 @@ Karim, M. Rahman, R. (2013).  Decision tree and Naive Bayes Algorithm for Classi
 Prensa Libre (2019). https://www.prensalibre.com/guatemala/comunitario/persisten-matrimonios-de-menores-de-edad-en-guatemala-pese-a-prohibicion/
 
 unionestempranas. (s.f.) https://unionestempranas.org/edades-minimas-para-el-matrimonio-en-guatemala/
+
+```{r}
+library(haven)
+library(foreign)
+
+set.seed(123)
+
+nacimientos2011 <- read_sav("./SAVS/2011N.sav")
+nacimientos2012 <- read_sav("./SAVS/2012Nacimientos.sav")
+nacimientos2013 <- read_sav("./SAVS/2013N.sav")
+nacimientos2014 <- read_sav("./SAVS/2014N.sav")
+nacimientos2015 <- read_sav("./SAVS/2015N.sav")
+nacimientos2016 <- read_sav("./SAVS/2016N.sav")
+nacimientos2017 <- read_sav("./SAVS/2017N.sav")
+nacimientos2018 <- read_sav("./SAVS/2018N.sav")
+nacimientos2019 <- read_sav("./SAVS/2019N.sav")
+
+
+
+```
+
+#Histograma nacimientos 2011
+```{r}
+library(dplyr)
+library(ggplot2)
+barplot(table(nacimientos2011$Edadm), main = "Edad de madres en nacimientos 2011", xlab = "Edad", ylab = "Cantidad", col = "steelblue" , border = "pink")
+```
+
+#Histograma nacimientos 2012
+```{r}
+library(dplyr)
+library(ggplot2)
+barplot(table(nacimientos2012$Edadm), main = "Edad de madres en nacimientos 2012", xlab = "Edad", ylab = "Cantidad", col = "steelblue" , border = "pink")
+```
+
+
+#Histograma nacimientos 2013
+```{r}
+library(dplyr)
+library(ggplot2)
+barplot(table(nacimientos2013$Edadm), main = "Edad de madres en nacimientos 2013", xlab = "Edad", ylab = "Cantidad", col = "steelblue" , border = "pink")
+```
+
+#Histograma nacimientos 2014
+```{r}
+library(dplyr)
+library(ggplot2)
+barplot(table(nacimientos2014$Edadm), main = "Edad de madres en nacimientos 2014", xlab = "Edad", ylab = "Cantidad", col = "steelblue" , border = "pink")
+```
+
+#Histograma nacimientos 2015
+```{r}
+library(dplyr)
+library(ggplot2)
+barplot(table(nacimientos2015$Edadm), main = "Edad de madres en nacimientos 2015", xlab = "Edad", ylab = "Cantidad", col = "steelblue" , border = "pink")
+```
+
+#Histograma nacimientos 2016
+```{r}
+library(dplyr)
+library(ggplot2)
+barplot(table(nacimientos2016$Edadm), main = "Edad de madres en nacimientos 2016", xlab = "Edad", ylab = "Cantidad", col = "steelblue" , border = "pink")
+```
+
+#Histograma nacimientos 2017
+```{r}
+library(dplyr)
+library(ggplot2)
+barplot(table(nacimientos2017$Edadm), main = "Edad de madres en nacimientos 2017", xlab = "Edad", ylab = "Cantidad", col = "steelblue" , border = "pink")
+```
+
+
+#Histograma nacimientos 2018
+```{r}
+library(dplyr)
+library(ggplot2)
+barplot(table(nacimientos2018$Edadm), main = "Edad de madres en nacimientos 2018", xlab = "Edad", ylab = "Cantidad", col = "steelblue" , border = "pink")
+```
+
+
+#Histograma nacimientos 2019
+```{r}
+library(dplyr)
+library(ggplot2)
+barplot(table(nacimientos2019$Edadm), main = "Edad de madres en nacimientos 2019", xlab = "Edad", ylab = "Cantidad", col = "steelblue" , border = "pink")
+```
+
