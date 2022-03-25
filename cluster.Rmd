@@ -1,0 +1,110 @@
+---
+title: "Clustering"
+output: html_document
+---
+
+---
+title: "Hisotgrams"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(factoextra)
+library(NbClust)
+
+```
+
+
+
+```{r}
+
+set.seed(123)
+datosMatrimonio17a19 <- read.csv("./CSV/matrimonios17a19.csv")
+datosMatrimonio16 <- read.csv("./CSV/matri2016 .csv")
+datosNacimiento17a19 <- read.csv("./CSV/nacimientos17a19.csv")
+
+```
+
+#MATRIMONIOS DE 2017 A 2019
+
+```{r}
+wss=0
+for (i in 1:10) 
+  wss[i] <- sum(kmeans(datosMatrimonio17a19, centers=i)$withinss)
+
+plot(1:10, wss, type="b", xlab="Number of Clusters",  ylab="Within groups sum of squares")
+```
+
+
+```{r kmedias}
+km_ma17a19<-kmeans(datosMatrimonio17a19,2,iter.max =100)
+datosMatrimonio17a19$grupo<-km_ma17a19$cluster
+```
+
+```{r}
+km_ma17a19
+```
+
+```{r cardinalidad de los grupos km}
+km_ma17a19$size
+```
+```{r cardinalidad vs magnitud km}
+library(ggrepel)
+m<-data.frame(withinss=km_ma17a19$withinss, size=km_ma17a19$size)
+ggplot(m, aes(size,withinss))+
+geom_point()+
+geom_smooth(method="lm")+
+labs(x="cardinalidad (size)",y="magnitud (whithinss)")+
+geom_text_repel(label=rownames(m))
+```
+
+
+```{r}
+result <- fviz_cluster(km_ma17a19, data = datosMatrimonio17a19, geom = "point", greppel = T)
+result
+```
+#NACIMIENTOS DE 2017 A 2019
+
+```{r}
+wss=0
+for (i in 1:10) 
+  wss[i] <- sum(kmeans(datosNacimiento17a19, centers=i)$withinss)
+
+plot(1:10, wss, type="b", xlab="Number of Clusters",  ylab="Within groups sum of squares")
+```
+
+
+```{r kmedias}
+km_Na17a19<-kmeans(datosNacimiento17a19,3,iter.max =100)
+datosNacimiento17a19$grupo<-km_Na17a19$cluster
+```
+
+```{r}
+km_Na17a19
+```
+
+```{r tamaño de los grupos km}
+km_Na17a19$size
+```
+
+
+```{r cardinalidad vs magnitud km}
+library(ggrepel)
+m2<-data.frame(withinss=km_Na17a19$withinss, size=km_Na17a19$size)
+ggplot(m2, aes(size,withinss))+
+geom_point()+
+geom_smooth(method="lm")+
+labs(x="cardinalidad (size)",y="magnitud (whithinss)")+
+geom_text_repel(label=rownames(m2))
+```
+
+
+```{r}
+result2 <- fviz_cluster(km_Na17a19, data = datosNacimiento17a19, geom = "point", greppel = T)
+result2
+```
+
