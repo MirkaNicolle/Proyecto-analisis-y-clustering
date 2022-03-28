@@ -593,6 +593,21 @@ str(datosMatrimonio)
 
 Las variables más interesantes para el porpósito de la investigación son las que proporcionan información de la fecha del matrimonio. Otras con gran potencial son las edades de los cónyuges, ya que con ellas podemos analizar cual es la tendencia de matrimonios de menores, diferencias de edades etc.
 
+### Analisis pre decreto
+```{r}
+matripre <- read.csv("./CSV/Ma2015_2016.csv")
+summary(matripre)
+```
+Como podemos ver en el analisis de la base de datos antes del decreto, tenemos, en el aparatado de EDADHOM y EDADMUj, las cuales representan las edaddes del hombre y de la mujer respectivamente, al momento de casarse, se tiene un minimo de 14 años en el caso del hombre y 12 en el caso de la mujer. 
+
+
+### Analisis post decreto 
+```{r}
+matripost <- read.csv("./CSV/matrimonios17a19.csv")
+summary(matripost)
+```
+En esta analisis de la base de datos post decreto, se puede ver en las mismas variables mencionadas anteriormente EDADHOM y EDADMUJ, que la edad minima para el hombre es de 17 y la edad minima de la mujer es de 16, mas adelante se corrobora por medio de una grafica de tendencia si realmente despues del decreto se a respetado la restriccion del casamiento de menores de edad. 
+
 ## Análisis de variables cuantitativas
 ### Registros de matrimonio
 #### Prueba de normalidad para  registros de matrimonios:
