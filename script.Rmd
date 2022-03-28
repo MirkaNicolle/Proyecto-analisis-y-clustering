@@ -1202,7 +1202,7 @@ clarax <- clara(datosMatrimonio$EDADMUJ , 2)
   
 plot(silhouette(clarax),  col = 2:3, main = "Silhouette plot")  
 ```
-Nos podemos dar cuenta que para la silueta con dos clusters nos presenta un valor bastante alto por encima de .5, indicandonos la distribucion de grupos de forma optima, nuestra silueta para hombres presenta 0.67, utilizando dos clusters se interpretan de mejor forma a comparacion con 4 clusteres.
+Nos podemos dar cuenta que para la silueta con dos clusters nos presenta un valor bastante alto por encima de .5, indicandonos la distribucion de grupos de forma optima, nuestra silueta para hombres presenta 0.67, utilizando dos clusters se interpretan de mejor forma a comparacion con 2 clusteres.
 ### En mujeres
 
 ```{r elegir los algoritmos de agrupación apropiados, echo=FALSE}
@@ -1211,3 +1211,88 @@ clorax <- clara(datosMatrimonio$EDADHOM , 2)
 plot(silhouette(clorax),  col = 2:3, main = "Silhouette plot")
 ```
 Similar que para el cluster de hombres, para mujeres tambien tenemos 0.66 u dato bastante alto, indicandonos tambien que utilizar dos clusters es la forma optima de interpretar nuestros conjuntos de datos
+
+#---------------------------Apartado de predición----------------------------------
+
+Con el fin de poder investigar más a fondo bajo que criterios es más probable que en un casamiento se encuentre implicada una mujer menor de edad (que en el análisis anterior se evidenció era más recurrente que los hombres) se decidió untilizar ML para poder predecir si dadas ciertas características una mujer será menor de edad en un matrimonio, para poder determinar en que lugares (o situaciones) debe ser atendido este problema.
+
+Con el objetivo de poder estudiar por categorias, se realizará una variable de clasificación adicional en el dataframe para poder llevar a cabo la predicción, en este caso se separó por menores y mayores de edad
+
+```{r Clasificación, echo=FALSE}
+datosMatrimonio$clasificacion <- ifelse(datosMatrimonio$EDADMUJ <= 17, "Menor", ifelse(datosMatrimonio$EDADMUJ >= 18, "Mayor",NA))
+datosMatrimonio$y <- factor(datosMatrimonio$clasificacion)
+```
+
+A su vez, es necesario convertir todos los datos a factores para poder hacer un análisis con RWEKA
+
+```{r Filtrado, echo=FALSE}
+datosML <- datosMatrimonio %>% filter(EDADMUJ >= 12)
+datosML <- datosML %>% filter(EDADHOM >= 14)
+datosML <- datosML[,-24]
+datosML <- datosML[,-7]
+datosML <- datosML[complete.cases(datosML), ]
+#
+datosML$DEPREG <- as.factor(datosML$DEPREG)
+datosML$MUPREG <- as.factor(datosML$MUPREG)
+datosML$MESREG <- as.factor(datosML$MESREG)
+datosML$CLAUNI <- as.factor(datosML$CLAUNI)
+datosML$PUEHOM <- as.factor(datosML$PUEHOM)
+datosML$PUEMUJ <- as.factor(datosML$PUEMUJ)
+datosML$NACHOM <- as.factor(datosML$NACHOM)
+datosML$NACMUJ <- as.factor(datosML$NACMUJ)
+datosML$CIUOHOM <- as.factor(datosML$CIUOHOM)
+datosML$CIUOMUJ <- as.factor(datosML$CIUOMUJ)
+datosML$NUNUHO <- as.factor(datosML$NUNUHO)
+datosML$NUNUMU <- as.factor(datosML$NUNUMU)
+datosML$DEPOCU <- as.factor(datosML$DEPOCU)
+datosML$MUPOCU <- as.factor(datosML$MUPOCU)
+datosML$MESOCU <- as.factor(datosML$MESOCU)
+datosML$AREAGOCU <- as.factor(datosML$AREAGOCU)
+datosML$ESCHOM <- as.factor(datosML$ESCHOM)
+datosML$ESCMUJ <- as.factor(datosML$ESCMUJ)
+datosML$DIAOCU <- as.factor(datosML$DIAOCU)
+datosML$AÑOOCU <- as.factor(datosML$AÑOOCU)
+```
+
+Luego, hacemos los conjuntos de entrenamiento y prueba y se borran las bases de datos de cada año individuales para liberar espacio en la memoria de R
+
+```{r limpiezarm, echo=FALSE}
+rm(l)
+rm(datosMatrimonio)
+rm(datos2011)
+rm(datos2012)
+rm(datos2013)
+rm(datos2014)
+rm(datos2015)
+rm(datos2016)
+rm(datos2017)
+```
+
+## Segundo análisis de datos
+Debido a que al tratar de hacer las predicciones se ha contado con errores debido a la gran cantidad que se está manejando, se ha decidido verificar cuáles son las variables más significativas para trabajar únicamente con ellas, sin embargo, al contar con variables que no son únicamente numéricas no es posible realizar una correlación entre ellas, por lo que se ha estudiado los datos de cada variable y se ha discutido su importancia, llegando a lo siguiente:
+
+En el caso de la ocupación, tanto de hombres como mujeres, se cuenta con demasiados valores diferentes por lo que no se considera que sea significativo. En el caso de los hombres se cuenta con 489 diferentes ocupaciones y en el caso de las mujeres se cuenta con 487 ocupaciones diferentes.
+El número de nupcias también es ignorado ya que los valores de "ignorado" y "none" representan en hombres el 37.0% y el 44.61% respectivamente y en mujeres representa el 37.06% y 44.61% respectivamente, por lo que no se vuelve tan significativo.
+
+La variable de escolaridad tanto de hombres como mujeres también será eliminada ya que los valores de ignorado y ninguno representan un 13.35% y 21.89% para los hombres y un 13.06% y 30.68% para las mujeres.
+Por último, aquellos datos que tengan el registro, como el departamento de ocurrencia o el municipio de ocurrencia, también serán eliminados debido a que es más confiable trabajar con los datos de ocurrencia, porque en muchos casos se registran matrimonios tiempo después de que hayan ocurrido o incluso en lugares diferentes, por lo que los datos de registro no son tan confiables, además, en caso de que sí se haya registrado en la fecha y lugares correctos, se tendría los datos duplicados.
+
+Por lo que nos quedamos con los valores de: Clase de unión, edad del hombre, etnia del hombre y de la mujer, nacionalidad del hombre y mujer, departamento, municipio, mes, año, día y área de ocurrencia y la variable a predecir que es si la mujer es mayor o menor de edad
+
+## Predicción por medio de Naive Bayes
+
+```{r bayes, echo=FALSE}
+library(e1071)
+modelo <- naiveBayes(train$y~., data = train)
+predBayes <- predict(modelo, newdata = train[,1:13])
+cm<- caret::confusionMatrix(predBayes,train$y)
+cm
+predBayesM <- predict(modelo, newdata = test[,1:13])
+test$PredBayes <- predBayesM
+cm <- caret::confusionMatrix(test$PredBayes, test$y)
+cm
+```
+
+Se utilizó Naive Bayes, que se basa en la fórmula estadística de bayes la cuál modela la probabilidad de que sucede un suceso en base a que otro previamente ha sucedido. Al ver el porcentaje de acierto del algoritmo, se puede notar que acertó en un 69% por lo que si parece haber patrones que determinan si la mujer es menor o mayor de edad. Adicionalmente, si vemos la matriz de confusión al momento de predecir si es mayor, suele ser bastante preciso, sin embargo, predijo que muchas mujeres eran mayores de edad cuando en realidad no lo eran, aún así, tambien es notable, al ver la matriz de confusión y el porcentaje de acierto que las variables si influencian el estado de la mujer al casarse.
+Es más conveniente usar Naive Bayes y árboles de decisión. En el caso de contar con mayor capacidad computacional podría intentar hacerse una red neuronal más completa con un tiempo menor y quizás obtener mejores resultados.
+
