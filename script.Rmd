@@ -1091,7 +1091,7 @@ for (i in 2:10)
 plot(1:10, wss, type="b", xlab="Number of Clusters",  ylab="Within groups sum of squares")
 ```
 
-Puede observarse en el gráfico que el codo se encuentra en el valor 7, por lo que esta es la cantidad adecuada de clusters que se deben utilizar.
+Puede observarse en el gráfico que el codo se encuentra en el valor 2, por lo que esta es la cantidad adecuada de clusters que se deben utilizar.
 
 ## Agrupamiento por medio de k-means  
 
