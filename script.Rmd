@@ -593,6 +593,21 @@ str(datosMatrimonio)
 
 Las variables más interesantes para el porpósito de la investigación son las que proporcionan información de la fecha del matrimonio. Otras con gran potencial son las edades de los cónyuges, ya que con ellas podemos analizar cual es la tendencia de matrimonios de menores, diferencias de edades etc.
 
+### Analisis pre decreto
+```{r}
+matripre <- read.csv("./CSV/Ma2015_2016.csv")
+summary(matripre)
+```
+Como podemos ver en el analisis de la base de datos antes del decreto, tenemos, en el aparatado de EDADHOM y EDADMUj, las cuales representan las edaddes del hombre y de la mujer respectivamente, al momento de casarse, se tiene un minimo de 14 años en el caso del hombre y 12 en el caso de la mujer. 
+
+
+### Analisis post decreto 
+```{r}
+matripost <- read.csv("./CSV/matrimonios17a19.csv")
+summary(matripost)
+```
+En esta analisis de la base de datos post decreto, se puede ver en las mismas variables mencionadas anteriormente EDADHOM y EDADMUJ, que la edad minima para el hombre es de 17 y la edad minima de la mujer es de 16, mas adelante se corrobora por medio de una grafica de tendencia si realmente despues del decreto se a respetado la restriccion del casamiento de menores de edad. 
+
 ## Análisis de variables cuantitativas
 ### Registros de matrimonio
 #### Prueba de normalidad para  registros de matrimonios:
@@ -606,7 +621,7 @@ ggplot(data = datosMatrimonio, aes(x = AÑOREG)) +
   stat_function(fun = dnorm, colour = "firebrick",
                 args = list(mean = mean(datosMatrimonio$popularity),
                             sd = sd(datosMatrimonio$popularity)))+
-  ggtitle("Histograma con curva normal teórica de los registros de matrimonios por año") + 
+  ggtitle("Histograma con curva normal teórica de los registros de matrimonios por año (2011 - 2016)") + 
   theme_bw()
 ```  
 
@@ -614,12 +629,12 @@ Como es de esperarse, no es posible observar que exista una relación en el hist
 
 
 ```{r normalBox, echo=FALSE}
-boxplot(datosMatrimonio$AÑOREG, main = "Caja y Bigotes de registro de matrimonios por año", xlab = "Registro por año")
+boxplot(datosMatrimonio$AÑOREG, main = "Caja y Bigotes de registro de matrimonios por año (2011 - 2017)", xlab = "Registro por año")
 ```
 
 Como dicho anteriormente, no hay muchos grupos atípicos ya que se concentran dentro de un intervalo.Según este diagrama, sí se cuenta con normalidad en la cantidad de matrimonios por año.
 
-### Diagrama de qqnormal
+### Diagrama de qqnormal 
 
 ```{r normalQQ, echo=FALSE}
 qqnorm(datosMatrimonio$AÑOREG, col="blue")
@@ -642,7 +657,7 @@ ggplot(data = datosMatrimonio, aes(x = EDADHOM)) +
   stat_function(fun = dnorm, colour = "firebrick",
                 args = list(mean = mean(datosMatrimonio$EDADHOM),
                             sd = sd(datosMatrimonio$EDADHOM)))+
-  ggtitle("Histograma con curva normal teórica de las edades de los hombres") + 
+  ggtitle("Histograma con curva normal teórica de las edades de los hombres (2011 - 2017)") + 
   theme_bw()
 ```  
 
@@ -652,7 +667,7 @@ Debido al sesgo, la edad de los hombres en matrimonios no sigue una distribució
 ### Diagrama de caja y bigotes
 
 ```{r normalBoxEdadHombre, echo=FALSE}
-boxplot(datosMatrimonio$EDADHOM, main = "Caja y Bigotes de edad de los hombres al casarse", xlab = "edad")
+boxplot(datosMatrimonio$EDADHOM, main = "Caja y Bigotes de edad de los hombres al casarse (2011 - 2017)", xlab = "edad")
 ```
 
 Se evidencia la gran cantidad de datos atípicos en el diagrama, se encuentran muy dispersos arriba de la media y del extremo superior que se encuentra al rededor de los 30 años. Esto quiere decir que la edad de los hombres en el matrimonio no sigue una distribución normal.
@@ -680,7 +695,7 @@ ggplot(data = datosMatrimonio, aes(x = EDADMUJ)) +
   stat_function(fun = dnorm, colour = "firebrick",
                 args = list(mean = mean(datosMatrimonio$EDADMUJ),
                             sd = sd(datosMatrimonio$EDADMUJ)))+
-  ggtitle("Histograma con curva normal teórica de las edades de las mujeres") + 
+  ggtitle("Histograma con curva normal teórica de las edades de las mujeres (2011 - 2017)") + 
   theme_bw()
 ```  
 
@@ -689,7 +704,7 @@ De la misma manera que en el histograma de hombres, hay una forma relativa de ca
 ### Diagrama de caja y bigotes
 
 ```{r normalBoxEdadMujer, echo=FALSE}
-boxplot(datosMatrimonio$EDADMUJ, main = "Caja y Bigotes de edad de las mujeres al casarse", xlab = "edad")
+boxplot(datosMatrimonio$EDADMUJ, main = "Caja y Bigotes de edad de las mujeres al casarse (2011 - 2017)", xlab = "edad")
 ```
 
 En este diagrama de caja y bigotes es posible ver una gran cantidad de datos atípicos arriba del extremo superior que se encuentra al rededor de los 30 años, muy similar al diagrama de la edad de los hombres, por lo que de la misma manera no se cuenta con normalidad en la edad de las mujeres en el matrimonio.
@@ -713,7 +728,7 @@ En conclusión, la edad de las mujeres en el matrimonio no sigue una distribuci�
 ```{r frecuenciaDepartamento, echo=FALSE}
 table(datosMatrimonio$DEPOCU)
 counts <- table(datosMatrimonio$DEPOCU)
-barplot(counts, las = 2, cex.names=.5 ,main = "Distribución de departamento de ocurrencia", xlab = "Departamento de ocurrencia")
+barplot(counts, las = 2, cex.names=.5 ,main = "Distribución de departamento de ocurrencia (2011 - 2017)", xlab = "Departamento de ocurrencia")
 ```
 
 Como puede observarse, el departamento en el que suele haber más matrimonios es en Guatemala, seguido por Huehuetenango y luego por Alta Verapaz.
@@ -724,7 +739,7 @@ Como puede observarse, el departamento en el que suele haber más matrimonios es
 #MuniOcurren <- data.frame(table(do.call(c, lapply(datosMatrimonio$MUPOCU, function(x) unlist(strsplit(x, "\\|"))))))
 table(datosMatrimonio$MUPOCU)
 counts <- table(datosMatrimonio$MUPOCU)
-barplot(counts, las = 2, cex.names=.5 ,main = "Distribución de municipio de ocurrencia", xlab = "Municipio de ocurrencia")
+barplot(counts, las = 2, cex.names=.5 ,main = "Distribución de municipio de ocurrencia (2011 - 2017)", xlab = "Municipio de ocurrencia")
 ```
 
 De la misma manera, es Guatemala el municipio que cuenta con la mayor cantidad de matrimonios.
@@ -744,7 +759,7 @@ Donde:
 #EscolHom <- data.frame(table(do.call(c, lapply(datosMatrimonio$ESCHOM, function(x) unlist(strsplit(x, "\\|"))))))
 table(datosMatrimonio$ESCHOM)
 counts <- table(datosMatrimonio$ESCHOM)
-barplot(counts, las = 1, cex.names=.8 ,main = "Distribución de escolaridad de los hombres", xlab = "Escolaridad del hombre")
+barplot(counts, las = 1, cex.names=.8 ,main = "Distribución de escolaridad de los hombres (2011 - 2017)", xlab = "Escolaridad del hombre")
 ```
 
 Como puede observarse, el nivel de escolaridad más común entre los hombres es primaria, con 255,480 casos, mientras que el más bajo es el de post grado con 181 casos.
@@ -763,7 +778,7 @@ Como puede observarse, el nivel de escolaridad más común entre los hombres es 
 #EscolMuj <- data.frame(table(do.call(c, lapply(datosMatrimonio$ESCMUJ, function(x) unlist(strsplit(x, "\\|"))))))
 table(datosMatrimonio$ESCMUJ)
 counts <- table(datosMatrimonio$ESCMUJ)
-barplot(counts, las = 1, cex.names=.8 ,main = "Distribución de escolaridad de las mujeres", xlab = "Escolaridad de las mujeres")
+barplot(counts, las = 1, cex.names=.8 ,main = "Distribución de escolaridad de las mujeres (2011 - 2017)", xlab = "Escolaridad de las mujeres")
 ```
 
 Como puede observarse, el nivel de escolaridad más común entre las mujeres es primaria, con 222076 casos, mientras que el más bajo es el de post grado con 126 casos.
@@ -774,7 +789,7 @@ Como puede observarse, el nivel de escolaridad más común entre las mujeres es 
 #EtHom <- data.frame(table(do.call(c, lapply(datosMatrimonio$GETHOM, function(x) unlist(strsplit(x, "\\|"))))))
 table(datosMatrimonio$PUEHOM)
 counts <- table(datosMatrimonio$PUEHOM)
-barplot(counts, las = 2, cex.names=.8 ,main = "Distribución de etnia de los hombres", xlab = "Etnia del hombre")
+barplot(counts, las = 2, cex.names=.8 ,main = "Distribución de etnia de los hombres (2011 - 2017)", xlab = "Etnia del hombre")
 ```
 
 Coomo puede observarse, el grupo étnico más común al que pertenecen los hombres en la base de datos es no indígena.
@@ -785,7 +800,7 @@ Coomo puede observarse, el grupo étnico más común al que pertenecen los hombr
 #EtHom <- data.frame(table(do.call(c, lapply(datosMatrimonio$GETMUJ, function(x) unlist(strsplit(x, "\\|"))))))
 table(datosMatrimonio$PUEMUJ)
 counts <- table(datosMatrimonio$PUEMUJ)
-barplot(counts, las = 2, cex.names=.8 ,main = "Distribución de etnia de las mujeres", xlab = "Etnia de las mujeres")
+barplot(counts, las = 2, cex.names=.8 ,main = "Distribución de etnia de las mujeres (2011 - 2017)", xlab = "Etnia de las mujeres")
 ```
 
 De la misma manera, puede observarse que el grupo étnico más común al que pertenecen las mujeres en la base de datos es no indígena.
@@ -793,7 +808,7 @@ De la misma manera, puede observarse que el grupo étnico más común al que per
 ## Correlacion entre edades de los cónyuges
 
 ```{r CorrelacionEdades, echo=FALSE}
-plot(x = datosMatrimonio$EDADHOM, y= datosMatrimonio$EDADMUJ, xlab= "Edad del Hombre", ylab= "Edad de la mujer", main = "Correlación entre las edades de los cónyuges")
+plot(x = datosMatrimonio$EDADHOM, y= datosMatrimonio$EDADMUJ, xlab= "Edad del Hombre", ylab= "Edad de la mujer", main = "Correlación entre las edades de los cónyuges (2011 - 2017)")
 abline(lm(datosMatrimonio$EDADMUJ ~ datosMatrimonio$EDADHOM), col = "red")
 ```
 
@@ -810,7 +825,7 @@ menorEdad <- menorEdadMuj %>% filter(EDADHOM >= 14)
 
 
 ```{r CorrEdadesFiltro, echo=FALSE}
-plot(x = menorEdad$EDADHOM, y= menorEdad$EDADMUJ, xlab= "Edad del Hombre", ylab= "Edad de la mujer", main = "Correlación entre las edades, mujeres menores de 18")
+plot(x = menorEdad$EDADHOM, y= menorEdad$EDADMUJ, xlab= "Edad del Hombre", ylab= "Edad de la mujer", main = "Correlación entre las edades, mujeres menores de 18 (2011 - 2017)")
 abline(lm(menorEdad$EDADMUJ ~ menorEdad$EDADHOM), col = "red")
 ```
 
@@ -825,7 +840,7 @@ menorEdadGraph <- menorEdad %>% filter(EDADHOM >= 18)
 #departamentos
 table(menorEdadGraph$DEPOCU)
 counts <- table(menorEdadGraph$DEPOCU)
-barplot(counts, las = 2, cex.names=.6 ,main = "Departamentos con matrimonios con menores de edad", xlab = "Departamentos de ocurrencia")
+barplot(counts, las = 2, cex.names=.6 ,main = "Departamentos con matrimonios con menores de edad (2011 - 2017)", xlab = "Departamentos de ocurrencia")
 ```
 
 Puede observarse que muchos de estos matrimonios se llevan a cabo en el departamento de Guatemala, donde una gran población son ladinos.
@@ -839,7 +854,7 @@ depMun <- (menorEdadGraph$MUPOCU)
 #departamentos
 table(depMun)
 counts <- table(menorEdadGraph$MUPOCU)
-barplot(counts, las = 2, cex.names=.5 ,main = "Municipios con matrimonios con menores de edad", xlab = "Municipios de ocurrencia")
+barplot(counts, las = 2, cex.names=.5 ,main = "Municipios con matrimonios con menores de edad (2011 - 2017)", xlab = "Municipios de ocurrencia")
 ```
 
 De la misma manera, puede observarse que la mayor cantidad de ocurrencias se encuentra en Guatemala.
@@ -853,7 +868,7 @@ etniaMujer <- (menorEdadGraph$PUEMUJ)
 #departamentos
 table(etniaMujer)
 counts <- table(menorEdadGraph$PUEMUJ)
-barplot(counts, las = 2, cex.names=.8 ,main = "Etnia de mujeres involucradas en matrimonios con menores de edad", xlab = "Etnia de las mujeres")
+barplot(counts, las = 2, cex.names=.8 ,main = "Etnia de mujeres involucradas en matrimonios con menores de edad (2011 - 2017)", xlab = "Etnia de las mujeres")
 ```
 
 Se puede observar que no hay una diferencia significativa en estos grupos, lo cual es importante para saber si el hecho de que ocurran los matrimonios con menores de edad, es algo que se ve influido por la cultura.
@@ -867,7 +882,7 @@ etniaHombre <- (menorEdadGraph$PUEHOM)
 #departamentos
 table(etniaHombre)
 counts <- table(menorEdadGraph$PUEHOM)
-barplot(counts, las = 2, cex.names=.8 ,main = "Etnia de hombres involucrados en matrimonios con menores de edad", xlab = "Etnia de los hombres")
+barplot(counts, las = 2, cex.names=.8 ,main = "Etnia de hombres involucrados en matrimonios con menores de edad (2011 - 2017)", xlab = "Etnia de los hombres")
 ```
 
 
@@ -907,15 +922,13 @@ counts <- table(menorEdadGraph$ESCMUJ)
 barplot(counts, las = 1, cex.names=.8 , xlab = "Escolaridad de las mujeres", col = coul)
 ```
 
-## Ocurrencia de matrimonios con menores de edad desde 2011 a 2019
+## Ocurrencia de matrimonios con menores de edad desde 2011 a 2017
 
 ```{r matrimoniosMenorses, echo=FALSE}
 coul <- brewer.pal(8,"Set2")
 counts <- table(menorEdadGraph$AÑOOCU)
 barplot(counts, las = 1, cex.names=.8 , xlab = "Año de ocurrencia", col = coul)
 ``` 
-#CLUSTERING
-#PRODUCCION
 
 ```{r}
 library(haven)
@@ -1054,4 +1067,147 @@ ggplot(df, aes(x=año, y=matrimonios, group = 1)) +
   labs(x = "Año", y = "Matrimonios menores de edad", title = "cantidad de matrimonios menores de edad de 2011 al 2019")
 ```
 
-Como podemos ver en nuestra grafica de tendencia, y la tabla de matrimonios, se puede ver que en los años donde hay mayores matrimonios en menores de edad, es en los años 2011 y 2012, luego fue bajando hasta el año 2016 donde se tubo 65 matrimonios reportados, un año antes de la prohibicion de matrimonios en menores de edad, luego se mantuvo bajo, en 2018 no se reportaron matrimonios en menores de edad, pero en 2019 se reportaron 22 matrimonios.  
+Como podemos ver en nuestra grafica de tendencia, y la tabla de matrimonios, se puede ver que en los años donde hay mayores matrimonios en menores de edad, es en los años 2011 y 2012, luego fue bajando hasta el año 2016 donde se tubo 65 matrimonios reportados, un año antes de la prohibicion de matrimonios en menores de edad, luego se mantuvo bajo, en 2018 no se reportaron matrimonios en menores de edad, pero en 2019 se reportaron 22 matrimonios.
+
+# -----------------------------------Clustering--------------------------------
+
+```{r Preprocesamiento, echo=FALSE}
+menorEdad$AÑOOCU <- as.numeric(factor(menorEdad$AÑOOCU))
+datosClustering <- menorEdad[,c(4,6,7,20)]
+data_omit <- na.omit(datosClustering) 
+summary(datosClustering)
+```
+
+Se trabajará con las siguientes variables que tienen formato int para formas grupos: AÑOREG, ALOOCU, EDADHOM,EDADMUJ. Esto debido a que son variables que se pueden clasificar por grupos y los resultados pueden ser interpretados.
+
+Para saber la mejor cantidad de clusters a utilizar, se hará lo siguiente:
+
+```{r cantClusters, echo=FALSE}
+wss <- (nrow(data_omit[,1:4])-1)*sum(apply(data_omit[,1:4],2,var))
+for (i in 2:10) 
+  wss[i] <- sum(kmeans(data_omit[,1:4], centers=i)$withinss)
+plot(1:10, wss, type="b", xlab="Number of Clusters",  ylab="Within groups sum of squares")
+```
+
+Puede observarse en el gráfico que el codo se encuentra en el valor 2, por lo que esta es la cantidad adecuada de clusters que se deben utilizar.
+
+## Agrupamiento por medio de k-means  
+
+```{r kmeans, echo=FALSE}
+library(fpc)
+km<-kmeans(datosClustering[,1:4],2,iter.max =100)
+datosClustering$grupo<-km$cluster
+plotcluster(datosClustering[,1:4],km$cluster)
+gkm1<- datosClustering[datosClustering$grupo==1,]
+gkm2<- datosClustering[datosClustering$grupo==2,]
+# gkm3<- datosClustering[datosClustering$grupo==3,]
+# gkm4<- datosClustering[datosClustering$grupo==4,]
+# gkm5<- datosClustering[datosClustering$grupo==5,]
+# gkm6<- datosClustering[datosClustering$grupo==6,]
+# gkm7<- datosClustering[datosClustering$grupo==7,]
+```
+
+Se puede observar cómo los datos se encuentran divididos en 2 grupos, todos bastante concentrados a excepcion de algunos datos atipicos del grupo mas alejado, estos son alrededor de 40 matrimonios donde los hombres eran de edades de 80 - 60 con niñas menores de edad.
+
+## Mixture of gaussians
+
+```{r gaussians, echo = FALSE}
+library(mclust)
+mc<-Mclust(datosClustering[,1:4],2)
+plot(mc, what = "classification", main="MClust Classification")
+datosClustering$mxGau<-mc$classification
+g1PMC<-datosClustering[datosClustering$mxGau==1,]
+g2PMC<-datosClustering[datosClustering$mxGau==2,]
+# g3PMC<-datosClustering[datosClustering$mxGau==3,]
+# g4PMC<-datosClustering[datosClustering$mxGau==4,]
+# g5PMC<-datosClustering[datosClustering$mxGau==5,]
+# g6PMC<-datosClustering[datosClustering$mxGau==6,]
+# g7PMC<-datosClustering[datosClustering$mxGau==7,]
+```
+En este gráfico se puede observar como en cada combinación de gráficos sucede la combinación de grupos y se observan los clusters bastante separados y bien identificados.
+
+## Fuzzy C-means
+
+```{r fuzzy2, echo=FALSE}
+library(e1071)#para cmeans
+library(cluster)
+set.seed(123)
+fcmf<-cmeans(datosClustering[,1:4],2)
+datosClustering$FCGrupos<-fcmf$cluster
+g1FCM <- datosClustering[datosClustering$FCGrupos == 1,]
+g2FCM <- datosClustering[datosClustering$FCGrupos == 2,]
+# g3FCM <- datosClustering[datosClustering$FCGrupos == 3,]
+# g4FCM <- datosClustering[datosClustering$FCGrupos == 4,]
+# g5FCM <- datosClustering[datosClustering$FCGrupos == 5,]
+# g6FCM <- datosClustering[datosClustering$FCGrupos == 6,]
+# g7FCM <- datosClustering[datosClustering$FCGrupos == 7,]
+
+clusplot(datosClustering, fcmf$cluster, color=TRUE, shade = TRUE, labels = 2,lines = 0)
+
+library(fpc)
+plotcluster(datosClustering,fcmf$cluster)
+```
+En el primer gráfico, clusplot, se puede ver detrás las regiones y como se encuentran los datos, además se indica que se explica casi 64% del punto de variabilidad.
+
+En el segundo gráfico se encuentran ya separados los clusters y es posible observar la variabilidad entre ellos.
+
+```{r analisis de cada grupo kmeans, echo=FALSE}
+summary(gkm1)
+summary(gkm2)
+# summary(gkm3)
+# summary(gkm4)
+# summary(gkm5)
+# summary(gkm6)
+# summary(gkm7)
+```
+
+Observando los resúmenes de cada cluster podemos darnos cuenta que en el clustering por kmeans podemos observar que una de las divisiones más evidentes se realizó por la edad del hombre, en donde el grupo 1 tiene los que se encuentran entre 14-22, el 2 entre 22-39, el 3 entre 40-86 y el 4 parece ser un complemento del 1 en donde se encuentran los de 14-24. Las edades de las mujeres de los grupos no parece ser un factor determinante al igual que el año de registro.
+
+```{r analisis de cada grupo mixture gaussians, echo=FALSE}
+summary(g1PMC)
+summary(g2PMC)
+# summary(g3PMC)
+# summary(g4PMC)
+# summary(g5PMC)
+# summary(g6PMC)
+# summary(g7PMC)
+```
+
+En este resúmen podemos identificar que se agrupo principalmente en relación al año, el grupo 1 se encuentran los años 2015-2020, 2 2012-2015, 3 2009,2012 y el 4to parece ser un complemento del 1ro. las edades parecen ser similares a través de los grupos.
+
+```{r analisis de cada grupo fuzzy c means, echo=FALSE}
+summary(g1FCM)
+summary(g2FCM)
+# summary(g3FCM)
+# summary(g4FCM)
+# summary(g5FCM)
+# summary(g6FCM)
+# summary(g7FCM)
+```
+
+En el resúmer por fuzzy se puede identificar que la media de la edad de las mujeres parece ser constante, los años un poco variados pero en cierta manera se observa una relación entre año y edad del hombre.
+
+## Evaluación de la tendencia de agrupamiento:
+
+En esté análisis de datos consiste en examinar si los datos son agrupables, es decir, si los datos contienen cualquier estructura de agrupación inherente. Esto debe comprobarse antes de aplicar el análisis de agrupación.
+
+Hopkins estadística: si el valor de Hopkins estadística está cerca de cero muy por debajo de 0,5, entonces podemos concluir que el conjunto de datos es significativamente clusterable.
+VAT evaluación visual de la tendencia de agrupamiento: la cubeta detecta la tendencia de agrupamiento en una forma visual contando el número de bloques oscuros o coloreados de forma cuadrada a lo largo de la diagonal en una imagen de rectangulos.
+
+### En hombres
+
+```{r Evaluacion de la tendencia de agrupamiento:cluster jerarquico, echo=FALSE}
+clarax <- clara(datosMatrimonio$EDADMUJ , 2)
+# Cluster plot
+  
+plot(silhouette(clarax),  col = 2:3, main = "Silhouette plot")  
+```
+Nos podemos dar cuenta que para la silueta con dos clusters nos presenta un valor bastante alto por encima de .5, indicandonos la distribucion de grupos de forma optima, nuestra silueta para hombres presenta 0.67, utilizando dos clusters se interpretan de mejor forma a comparacion con 4 clusteres.
+### En mujeres
+
+```{r elegir los algoritmos de agrupación apropiados, echo=FALSE}
+clorax <- clara(datosMatrimonio$EDADHOM , 2)
+# Cluster plot
+plot(silhouette(clorax),  col = 2:3, main = "Silhouette plot")
+```
+Similar que para el cluster de hombres, para mujeres tambien tenemos 0.66 u dato bastante alto, indicandonos tambien que utilizar dos clusters es la forma optima de interpretar nuestros conjuntos de datos
