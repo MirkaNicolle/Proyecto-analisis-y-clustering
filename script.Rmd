@@ -1097,34 +1097,34 @@ Puede observarse en el gráfico que el codo se encuentra en el valor 7, por lo q
 
 ```{r kmeans, echo=FALSE}
 library(fpc)
-km<-kmeans(datosClustering[,1:4],7,iter.max =500)
+km<-kmeans(datosClustering[,1:4],2,iter.max =100)
 datosClustering$grupo<-km$cluster
 plotcluster(datosClustering[,1:4],km$cluster)
 gkm1<- datosClustering[datosClustering$grupo==1,]
 gkm2<- datosClustering[datosClustering$grupo==2,]
-gkm3<- datosClustering[datosClustering$grupo==3,]
-gkm4<- datosClustering[datosClustering$grupo==4,]
-gkm5<- datosClustering[datosClustering$grupo==5,]
-gkm6<- datosClustering[datosClustering$grupo==6,]
-gkm7<- datosClustering[datosClustering$grupo==7,]
+# gkm3<- datosClustering[datosClustering$grupo==3,]
+# gkm4<- datosClustering[datosClustering$grupo==4,]
+# gkm5<- datosClustering[datosClustering$grupo==5,]
+# gkm6<- datosClustering[datosClustering$grupo==6,]
+# gkm7<- datosClustering[datosClustering$grupo==7,]
 ```
 
-Se puede observar cómo los datos se encuentran divididos en 7 grupos, todos bastante concentrados a excepcion de algunos datos atipicos del grupo mas alejado, estos son alrededor de 40 matrimonios donde los hombres eran de edades de 80 - 60 con niñas menores de edad.
+Se puede observar cómo los datos se encuentran divididos en 2 grupos, todos bastante concentrados a excepcion de algunos datos atipicos del grupo mas alejado, estos son alrededor de 40 matrimonios donde los hombres eran de edades de 80 - 60 con niñas menores de edad.
 
 ## Mixture of gaussians
 
 ```{r gaussians, echo = FALSE}
 library(mclust)
-mc<-Mclust(datosClustering[,1:4],7)
+mc<-Mclust(datosClustering[,1:4],2)
 plot(mc, what = "classification", main="MClust Classification")
 datosClustering$mxGau<-mc$classification
 g1PMC<-datosClustering[datosClustering$mxGau==1,]
 g2PMC<-datosClustering[datosClustering$mxGau==2,]
-g3PMC<-datosClustering[datosClustering$mxGau==3,]
-g4PMC<-datosClustering[datosClustering$mxGau==4,]
-g5PMC<-datosClustering[datosClustering$mxGau==5,]
-g6PMC<-datosClustering[datosClustering$mxGau==6,]
-g7PMC<-datosClustering[datosClustering$mxGau==7,]
+# g3PMC<-datosClustering[datosClustering$mxGau==3,]
+# g4PMC<-datosClustering[datosClustering$mxGau==4,]
+# g5PMC<-datosClustering[datosClustering$mxGau==5,]
+# g6PMC<-datosClustering[datosClustering$mxGau==6,]
+# g7PMC<-datosClustering[datosClustering$mxGau==7,]
 ```
 En este gráfico se puede observar como en cada combinación de gráficos sucede la combinación de grupos y se observan los clusters bastante separados y bien identificados.
 
@@ -1134,33 +1134,33 @@ En este gráfico se puede observar como en cada combinación de gráficos sucede
 library(e1071)#para cmeans
 library(cluster)
 set.seed(123)
-fcmf<-cmeans(datosClustering[,1:4],7)
+fcmf<-cmeans(datosClustering[,1:4],2)
 datosClustering$FCGrupos<-fcmf$cluster
 g1FCM <- datosClustering[datosClustering$FCGrupos == 1,]
 g2FCM <- datosClustering[datosClustering$FCGrupos == 2,]
-g3FCM <- datosClustering[datosClustering$FCGrupos == 3,]
-g4FCM <- datosClustering[datosClustering$FCGrupos == 4,]
-g5FCM <- datosClustering[datosClustering$FCGrupos == 5,]
-g6FCM <- datosClustering[datosClustering$FCGrupos == 6,]
-g7FCM <- datosClustering[datosClustering$FCGrupos == 7,]
+# g3FCM <- datosClustering[datosClustering$FCGrupos == 3,]
+# g4FCM <- datosClustering[datosClustering$FCGrupos == 4,]
+# g5FCM <- datosClustering[datosClustering$FCGrupos == 5,]
+# g6FCM <- datosClustering[datosClustering$FCGrupos == 6,]
+# g7FCM <- datosClustering[datosClustering$FCGrupos == 7,]
 
 clusplot(datosClustering, fcmf$cluster, color=TRUE, shade = TRUE, labels = 2,lines = 0)
 
 library(fpc)
 plotcluster(datosClustering,fcmf$cluster)
 ```
-En el primer gráfico, clusplot, se puede ver detrás las regiones y como se encuentran los datos, además se indica que se explica casi 48% del punto de variabilidad.
+En el primer gráfico, clusplot, se puede ver detrás las regiones y como se encuentran los datos, además se indica que se explica casi 64% del punto de variabilidad.
 
 En el segundo gráfico se encuentran ya separados los clusters y es posible observar la variabilidad entre ellos.
 
 ```{r analisis de cada grupo kmeans, echo=FALSE}
 summary(gkm1)
 summary(gkm2)
-summary(gkm3)
-summary(gkm4)
-summary(gkm5)
-summary(gkm6)
-summary(gkm7)
+# summary(gkm3)
+# summary(gkm4)
+# summary(gkm5)
+# summary(gkm6)
+# summary(gkm7)
 ```
 
 Observando los resúmenes de cada cluster podemos darnos cuenta que en el clustering por kmeans podemos observar que una de las divisiones más evidentes se realizó por la edad del hombre, en donde el grupo 1 tiene los que se encuentran entre 14-22, el 2 entre 22-39, el 3 entre 40-86 y el 4 parece ser un complemento del 1 en donde se encuentran los de 14-24. Las edades de las mujeres de los grupos no parece ser un factor determinante al igual que el año de registro.
@@ -1168,11 +1168,11 @@ Observando los resúmenes de cada cluster podemos darnos cuenta que en el cluste
 ```{r analisis de cada grupo mixture gaussians, echo=FALSE}
 summary(g1PMC)
 summary(g2PMC)
-summary(g3PMC)
-summary(g4PMC)
-summary(g5PMC)
-summary(g6PMC)
-summary(g7PMC)
+# summary(g3PMC)
+# summary(g4PMC)
+# summary(g5PMC)
+# summary(g6PMC)
+# summary(g7PMC)
 ```
 
 En este resúmen podemos identificar que se agrupo principalmente en relación al año, el grupo 1 se encuentran los años 2015-2020, 2 2012-2015, 3 2009,2012 y el 4to parece ser un complemento del 1ro. las edades parecen ser similares a través de los grupos.
@@ -1180,11 +1180,11 @@ En este resúmen podemos identificar que se agrupo principalmente en relación a
 ```{r analisis de cada grupo fuzzy c means, echo=FALSE}
 summary(g1FCM)
 summary(g2FCM)
-summary(g3FCM)
-summary(g4FCM)
-summary(g5FCM)
-summary(g6FCM)
-summary(g7FCM)
+# summary(g3FCM)
+# summary(g4FCM)
+# summary(g5FCM)
+# summary(g6FCM)
+# summary(g7FCM)
 ```
 
 En el resúmer por fuzzy se puede identificar que la media de la edad de las mujeres parece ser constante, los años un poco variados pero en cierta manera se observa una relación entre año y edad del hombre.
@@ -1199,16 +1199,17 @@ VAT evaluación visual de la tendencia de agrupamiento: la cubeta detecta la ten
 ### En hombres
 
 ```{r Evaluacion de la tendencia de agrupamiento:cluster jerarquico, echo=FALSE}
-clarax <- clara(datosMatrimonio$EDADMUJ , 3)
+clarax <- clara(datosMatrimonio$EDADMUJ , 2)
 # Cluster plot
   
 plot(silhouette(clarax),  col = 2:3, main = "Silhouette plot")  
 ```
-
+Nos podemos dar cuenta que para la silueta con dos clusters nos presenta un valor bastante alto por encima de .5, indicandonos la distribucion de grupos de forma optima, nuestra silueta para hombres presenta 0.67, utilizando dos clusters se interpretan de mejor forma a comparacion con 4 clusteres.
 ### En mujeres
 
 ```{r elegir los algoritmos de agrupación apropiados, echo=FALSE}
-clorax <- clara(datosMatrimonio$EDADHOM , 3)
+clorax <- clara(datosMatrimonio$EDADHOM , 2)
 # Cluster plot
 plot(silhouette(clorax),  col = 2:3, main = "Silhouette plot")
 ```
+Similar que para el cluster de hombres, para mujeres tambien tenemos 0.66 u dato bastante alto, indicandonos tambien que utilizar dos clusters es la forma optima de interpretar nuestros conjuntos de datos
