@@ -621,7 +621,7 @@ ggplot(data = datosMatrimonio, aes(x = AÑOREG)) +
   stat_function(fun = dnorm, colour = "firebrick",
                 args = list(mean = mean(datosMatrimonio$popularity),
                             sd = sd(datosMatrimonio$popularity)))+
-  ggtitle("Histograma con curva normal teórica de los registros de matrimonios por año") + 
+  ggtitle("Histograma con curva normal teórica de los registros de matrimonios por año (2011 - 2016)") + 
   theme_bw()
 ```  
 
@@ -629,12 +629,12 @@ Como es de esperarse, no es posible observar que exista una relación en el hist
 
 
 ```{r normalBox, echo=FALSE}
-boxplot(datosMatrimonio$AÑOREG, main = "Caja y Bigotes de registro de matrimonios por año", xlab = "Registro por año")
+boxplot(datosMatrimonio$AÑOREG, main = "Caja y Bigotes de registro de matrimonios por año (2011 - 2019)", xlab = "Registro por año")
 ```
 
 Como dicho anteriormente, no hay muchos grupos atípicos ya que se concentran dentro de un intervalo.Según este diagrama, sí se cuenta con normalidad en la cantidad de matrimonios por año.
 
-### Diagrama de qqnormal
+### Diagrama de qqnormal 
 
 ```{r normalQQ, echo=FALSE}
 qqnorm(datosMatrimonio$AÑOREG, col="blue")
@@ -657,7 +657,7 @@ ggplot(data = datosMatrimonio, aes(x = EDADHOM)) +
   stat_function(fun = dnorm, colour = "firebrick",
                 args = list(mean = mean(datosMatrimonio$EDADHOM),
                             sd = sd(datosMatrimonio$EDADHOM)))+
-  ggtitle("Histograma con curva normal teórica de las edades de los hombres") + 
+  ggtitle("Histograma con curva normal teórica de las edades de los hombres (2011 - 2019)") + 
   theme_bw()
 ```  
 
@@ -667,7 +667,7 @@ Debido al sesgo, la edad de los hombres en matrimonios no sigue una distribució
 ### Diagrama de caja y bigotes
 
 ```{r normalBoxEdadHombre, echo=FALSE}
-boxplot(datosMatrimonio$EDADHOM, main = "Caja y Bigotes de edad de los hombres al casarse", xlab = "edad")
+boxplot(datosMatrimonio$EDADHOM, main = "Caja y Bigotes de edad de los hombres al casarse (2011 - 2019)", xlab = "edad")
 ```
 
 Se evidencia la gran cantidad de datos atípicos en el diagrama, se encuentran muy dispersos arriba de la media y del extremo superior que se encuentra al rededor de los 30 años. Esto quiere decir que la edad de los hombres en el matrimonio no sigue una distribución normal.
@@ -695,7 +695,7 @@ ggplot(data = datosMatrimonio, aes(x = EDADMUJ)) +
   stat_function(fun = dnorm, colour = "firebrick",
                 args = list(mean = mean(datosMatrimonio$EDADMUJ),
                             sd = sd(datosMatrimonio$EDADMUJ)))+
-  ggtitle("Histograma con curva normal teórica de las edades de las mujeres") + 
+  ggtitle("Histograma con curva normal teórica de las edades de las mujeres (2011 - 2019)") + 
   theme_bw()
 ```  
 
@@ -704,7 +704,7 @@ De la misma manera que en el histograma de hombres, hay una forma relativa de ca
 ### Diagrama de caja y bigotes
 
 ```{r normalBoxEdadMujer, echo=FALSE}
-boxplot(datosMatrimonio$EDADMUJ, main = "Caja y Bigotes de edad de las mujeres al casarse", xlab = "edad")
+boxplot(datosMatrimonio$EDADMUJ, main = "Caja y Bigotes de edad de las mujeres al casarse (2011 - 2019)", xlab = "edad")
 ```
 
 En este diagrama de caja y bigotes es posible ver una gran cantidad de datos atípicos arriba del extremo superior que se encuentra al rededor de los 30 años, muy similar al diagrama de la edad de los hombres, por lo que de la misma manera no se cuenta con normalidad en la edad de las mujeres en el matrimonio.
@@ -728,7 +728,7 @@ En conclusión, la edad de las mujeres en el matrimonio no sigue una distribuci�
 ```{r frecuenciaDepartamento, echo=FALSE}
 table(datosMatrimonio$DEPOCU)
 counts <- table(datosMatrimonio$DEPOCU)
-barplot(counts, las = 2, cex.names=.5 ,main = "Distribución de departamento de ocurrencia", xlab = "Departamento de ocurrencia")
+barplot(counts, las = 2, cex.names=.5 ,main = "Distribución de departamento de ocurrencia (2011 - 2019)", xlab = "Departamento de ocurrencia")
 ```
 
 Como puede observarse, el departamento en el que suele haber más matrimonios es en Guatemala, seguido por Huehuetenango y luego por Alta Verapaz.
@@ -739,7 +739,7 @@ Como puede observarse, el departamento en el que suele haber más matrimonios es
 #MuniOcurren <- data.frame(table(do.call(c, lapply(datosMatrimonio$MUPOCU, function(x) unlist(strsplit(x, "\\|"))))))
 table(datosMatrimonio$MUPOCU)
 counts <- table(datosMatrimonio$MUPOCU)
-barplot(counts, las = 2, cex.names=.5 ,main = "Distribución de municipio de ocurrencia", xlab = "Municipio de ocurrencia")
+barplot(counts, las = 2, cex.names=.5 ,main = "Distribución de municipio de ocurrencia (2011 - 2019)", xlab = "Municipio de ocurrencia")
 ```
 
 De la misma manera, es Guatemala el municipio que cuenta con la mayor cantidad de matrimonios.
@@ -759,7 +759,7 @@ Donde:
 #EscolHom <- data.frame(table(do.call(c, lapply(datosMatrimonio$ESCHOM, function(x) unlist(strsplit(x, "\\|"))))))
 table(datosMatrimonio$ESCHOM)
 counts <- table(datosMatrimonio$ESCHOM)
-barplot(counts, las = 1, cex.names=.8 ,main = "Distribución de escolaridad de los hombres", xlab = "Escolaridad del hombre")
+barplot(counts, las = 1, cex.names=.8 ,main = "Distribución de escolaridad de los hombres (2011 - 2019)", xlab = "Escolaridad del hombre")
 ```
 
 Como puede observarse, el nivel de escolaridad más común entre los hombres es primaria, con 255,480 casos, mientras que el más bajo es el de post grado con 181 casos.
@@ -778,7 +778,7 @@ Como puede observarse, el nivel de escolaridad más común entre los hombres es 
 #EscolMuj <- data.frame(table(do.call(c, lapply(datosMatrimonio$ESCMUJ, function(x) unlist(strsplit(x, "\\|"))))))
 table(datosMatrimonio$ESCMUJ)
 counts <- table(datosMatrimonio$ESCMUJ)
-barplot(counts, las = 1, cex.names=.8 ,main = "Distribución de escolaridad de las mujeres", xlab = "Escolaridad de las mujeres")
+barplot(counts, las = 1, cex.names=.8 ,main = "Distribución de escolaridad de las mujeres (2011 - 2019)", xlab = "Escolaridad de las mujeres")
 ```
 
 Como puede observarse, el nivel de escolaridad más común entre las mujeres es primaria, con 222076 casos, mientras que el más bajo es el de post grado con 126 casos.
@@ -789,7 +789,7 @@ Como puede observarse, el nivel de escolaridad más común entre las mujeres es 
 #EtHom <- data.frame(table(do.call(c, lapply(datosMatrimonio$GETHOM, function(x) unlist(strsplit(x, "\\|"))))))
 table(datosMatrimonio$PUEHOM)
 counts <- table(datosMatrimonio$PUEHOM)
-barplot(counts, las = 2, cex.names=.8 ,main = "Distribución de etnia de los hombres", xlab = "Etnia del hombre")
+barplot(counts, las = 2, cex.names=.8 ,main = "Distribución de etnia de los hombres (2011 - 2019)", xlab = "Etnia del hombre")
 ```
 
 Coomo puede observarse, el grupo étnico más común al que pertenecen los hombres en la base de datos es no indígena.
@@ -800,7 +800,7 @@ Coomo puede observarse, el grupo étnico más común al que pertenecen los hombr
 #EtHom <- data.frame(table(do.call(c, lapply(datosMatrimonio$GETMUJ, function(x) unlist(strsplit(x, "\\|"))))))
 table(datosMatrimonio$PUEMUJ)
 counts <- table(datosMatrimonio$PUEMUJ)
-barplot(counts, las = 2, cex.names=.8 ,main = "Distribución de etnia de las mujeres", xlab = "Etnia de las mujeres")
+barplot(counts, las = 2, cex.names=.8 ,main = "Distribución de etnia de las mujeres (2011 - 2019)", xlab = "Etnia de las mujeres")
 ```
 
 De la misma manera, puede observarse que el grupo étnico más común al que pertenecen las mujeres en la base de datos es no indígena.
@@ -808,7 +808,7 @@ De la misma manera, puede observarse que el grupo étnico más común al que per
 ## Correlacion entre edades de los cónyuges
 
 ```{r CorrelacionEdades, echo=FALSE}
-plot(x = datosMatrimonio$EDADHOM, y= datosMatrimonio$EDADMUJ, xlab= "Edad del Hombre", ylab= "Edad de la mujer", main = "Correlación entre las edades de los cónyuges")
+plot(x = datosMatrimonio$EDADHOM, y= datosMatrimonio$EDADMUJ, xlab= "Edad del Hombre", ylab= "Edad de la mujer", main = "Correlación entre las edades de los cónyuges (2011 - 2019)")
 abline(lm(datosMatrimonio$EDADMUJ ~ datosMatrimonio$EDADHOM), col = "red")
 ```
 
@@ -825,7 +825,7 @@ menorEdad <- menorEdadMuj %>% filter(EDADHOM >= 14)
 
 
 ```{r CorrEdadesFiltro, echo=FALSE}
-plot(x = menorEdad$EDADHOM, y= menorEdad$EDADMUJ, xlab= "Edad del Hombre", ylab= "Edad de la mujer", main = "Correlación entre las edades, mujeres menores de 18")
+plot(x = menorEdad$EDADHOM, y= menorEdad$EDADMUJ, xlab= "Edad del Hombre", ylab= "Edad de la mujer", main = "Correlación entre las edades, mujeres menores de 18 (2011 - 2019)")
 abline(lm(menorEdad$EDADMUJ ~ menorEdad$EDADHOM), col = "red")
 ```
 
@@ -840,7 +840,7 @@ menorEdadGraph <- menorEdad %>% filter(EDADHOM >= 18)
 #departamentos
 table(menorEdadGraph$DEPOCU)
 counts <- table(menorEdadGraph$DEPOCU)
-barplot(counts, las = 2, cex.names=.6 ,main = "Departamentos con matrimonios con menores de edad", xlab = "Departamentos de ocurrencia")
+barplot(counts, las = 2, cex.names=.6 ,main = "Departamentos con matrimonios con menores de edad (2011 - 2019)", xlab = "Departamentos de ocurrencia")
 ```
 
 Puede observarse que muchos de estos matrimonios se llevan a cabo en el departamento de Guatemala, donde una gran población son ladinos.
@@ -854,7 +854,7 @@ depMun <- (menorEdadGraph$MUPOCU)
 #departamentos
 table(depMun)
 counts <- table(menorEdadGraph$MUPOCU)
-barplot(counts, las = 2, cex.names=.5 ,main = "Municipios con matrimonios con menores de edad", xlab = "Municipios de ocurrencia")
+barplot(counts, las = 2, cex.names=.5 ,main = "Municipios con matrimonios con menores de edad (2011 - 2019)", xlab = "Municipios de ocurrencia")
 ```
 
 De la misma manera, puede observarse que la mayor cantidad de ocurrencias se encuentra en Guatemala.
@@ -868,7 +868,7 @@ etniaMujer <- (menorEdadGraph$PUEMUJ)
 #departamentos
 table(etniaMujer)
 counts <- table(menorEdadGraph$PUEMUJ)
-barplot(counts, las = 2, cex.names=.8 ,main = "Etnia de mujeres involucradas en matrimonios con menores de edad", xlab = "Etnia de las mujeres")
+barplot(counts, las = 2, cex.names=.8 ,main = "Etnia de mujeres involucradas en matrimonios con menores de edad (2011 - 2019)", xlab = "Etnia de las mujeres")
 ```
 
 Se puede observar que no hay una diferencia significativa en estos grupos, lo cual es importante para saber si el hecho de que ocurran los matrimonios con menores de edad, es algo que se ve influido por la cultura.
@@ -882,7 +882,7 @@ etniaHombre <- (menorEdadGraph$PUEHOM)
 #departamentos
 table(etniaHombre)
 counts <- table(menorEdadGraph$PUEHOM)
-barplot(counts, las = 2, cex.names=.8 ,main = "Etnia de hombres involucrados en matrimonios con menores de edad", xlab = "Etnia de los hombres")
+barplot(counts, las = 2, cex.names=.8 ,main = "Etnia de hombres involucrados en matrimonios con menores de edad (2011 - 2019)", xlab = "Etnia de los hombres")
 ```
 
 
