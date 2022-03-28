@@ -629,7 +629,7 @@ Como es de esperarse, no es posible observar que exista una relación en el hist
 
 
 ```{r normalBox, echo=FALSE}
-boxplot(datosMatrimonio$AÑOREG, main = "Caja y Bigotes de registro de matrimonios por año (2011 - 2019)", xlab = "Registro por año")
+boxplot(datosMatrimonio$AÑOREG, main = "Caja y Bigotes de registro de matrimonios por año (2011 - 2017)", xlab = "Registro por año")
 ```
 
 Como dicho anteriormente, no hay muchos grupos atípicos ya que se concentran dentro de un intervalo.Según este diagrama, sí se cuenta con normalidad en la cantidad de matrimonios por año.
