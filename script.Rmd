@@ -1054,4 +1054,146 @@ ggplot(df, aes(x=año, y=matrimonios, group = 1)) +
   labs(x = "Año", y = "Matrimonios menores de edad", title = "cantidad de matrimonios menores de edad de 2011 al 2019")
 ```
 
-Como podemos ver en nuestra grafica de tendencia, y la tabla de matrimonios, se puede ver que en los años donde hay mayores matrimonios en menores de edad, es en los años 2011 y 2012, luego fue bajando hasta el año 2016 donde se tubo 65 matrimonios reportados, un año antes de la prohibicion de matrimonios en menores de edad, luego se mantuvo bajo, en 2018 no se reportaron matrimonios en menores de edad, pero en 2019 se reportaron 22 matrimonios.  
+Como podemos ver en nuestra grafica de tendencia, y la tabla de matrimonios, se puede ver que en los años donde hay mayores matrimonios en menores de edad, es en los años 2011 y 2012, luego fue bajando hasta el año 2016 donde se tubo 65 matrimonios reportados, un año antes de la prohibicion de matrimonios en menores de edad, luego se mantuvo bajo, en 2018 no se reportaron matrimonios en menores de edad, pero en 2019 se reportaron 22 matrimonios.
+
+# -----------------------------------Clustering--------------------------------
+
+```{r Preprocesamiento, echo=FALSE}
+menorEdad$AÑOOCU <- as.numeric(factor(menorEdad$AÑOOCU))
+datosClustering <- menorEdad[,c(4,6,7,20)]
+data_omit <- na.omit(datosClustering) 
+summary(datosClustering)
+```
+
+Se trabajará con las siguientes variables que tienen formato int para formas grupos: AÑOREG, ALOOCU, EDADHOM,EDADMUJ. Esto debido a que son variables que se pueden clasificar por grupos y los resultados pueden ser interpretados.
+
+Para saber la mejor cantidad de clusters a utilizar, se hará lo siguiente:
+
+```{r cantClusters, echo=FALSE}
+wss <- (nrow(data_omit[,1:4])-1)*sum(apply(data_omit[,1:4],2,var))
+for (i in 2:10) 
+  wss[i] <- sum(kmeans(data_omit[,1:4], centers=i)$withinss)
+plot(1:10, wss, type="b", xlab="Number of Clusters",  ylab="Within groups sum of squares")
+```
+
+Puede observarse en el gráfico que el codo se encuentra en el valor 7, por lo que esta es la cantidad adecuada de clusters que se deben utilizar.
+
+## Agrupamiento por medio de k-means  
+
+```{r kmeans, echo=FALSE}
+library(fpc)
+km<-kmeans(datosClustering[,1:4],7,iter.max =500)
+datosClustering$grupo<-km$cluster
+plotcluster(datosClustering[,1:4],km$cluster)
+gkm1<- datosClustering[datosClustering$grupo==1,]
+gkm2<- datosClustering[datosClustering$grupo==2,]
+gkm3<- datosClustering[datosClustering$grupo==3,]
+gkm4<- datosClustering[datosClustering$grupo==4,]
+gkm5<- datosClustering[datosClustering$grupo==5,]
+gkm6<- datosClustering[datosClustering$grupo==6,]
+gkm7<- datosClustering[datosClustering$grupo==7,]
+```
+
+Se puede observar cómo los datos se encuentran divididos en 7 grupos, todos bastante concentrados a excepcion de algunos datos atipicos del grupo mas alejado, estos son alrededor de 40 matrimonios donde los hombres eran de edades de 80 - 60 con niñas menores de edad.
+
+## Mixture of gaussians
+
+```{r gaussians, echo = FALSE}
+library(mclust)
+mc<-Mclust(datosClustering[,1:4],7)
+plot(mc, what = "classification", main="MClust Classification")
+datosClustering$mxGau<-mc$classification
+g1PMC<-datosClustering[datosClustering$mxGau==1,]
+g2PMC<-datosClustering[datosClustering$mxGau==2,]
+g3PMC<-datosClustering[datosClustering$mxGau==3,]
+g4PMC<-datosClustering[datosClustering$mxGau==4,]
+g5PMC<-datosClustering[datosClustering$mxGau==5,]
+g6PMC<-datosClustering[datosClustering$mxGau==6,]
+g7PMC<-datosClustering[datosClustering$mxGau==7,]
+```
+En este gráfico se puede observar como en cada combinación de gráficos sucede la combinación de grupos y se observan los clusters bastante separados y bien identificados.
+
+## Fuzzy C-means
+
+```{r fuzzy2, echo=FALSE}
+library(e1071)#para cmeans
+library(cluster)
+set.seed(123)
+fcmf<-cmeans(datosClustering[,1:4],7)
+datosClustering$FCGrupos<-fcmf$cluster
+g1FCM <- datosClustering[datosClustering$FCGrupos == 1,]
+g2FCM <- datosClustering[datosClustering$FCGrupos == 2,]
+g3FCM <- datosClustering[datosClustering$FCGrupos == 3,]
+g4FCM <- datosClustering[datosClustering$FCGrupos == 4,]
+g5FCM <- datosClustering[datosClustering$FCGrupos == 5,]
+g6FCM <- datosClustering[datosClustering$FCGrupos == 6,]
+g7FCM <- datosClustering[datosClustering$FCGrupos == 7,]
+
+clusplot(datosClustering, fcmf$cluster, color=TRUE, shade = TRUE, labels = 2,lines = 0)
+
+library(fpc)
+plotcluster(datosClustering,fcmf$cluster)
+```
+En el primer gráfico, clusplot, se puede ver detrás las regiones y como se encuentran los datos, además se indica que se explica casi 48% del punto de variabilidad.
+
+En el segundo gráfico se encuentran ya separados los clusters y es posible observar la variabilidad entre ellos.
+
+```{r analisis de cada grupo kmeans, echo=FALSE}
+summary(gkm1)
+summary(gkm2)
+summary(gkm3)
+summary(gkm4)
+summary(gkm5)
+summary(gkm6)
+summary(gkm7)
+```
+
+Observando los resúmenes de cada cluster podemos darnos cuenta que en el clustering por kmeans podemos observar que una de las divisiones más evidentes se realizó por la edad del hombre, en donde el grupo 1 tiene los que se encuentran entre 14-22, el 2 entre 22-39, el 3 entre 40-86 y el 4 parece ser un complemento del 1 en donde se encuentran los de 14-24. Las edades de las mujeres de los grupos no parece ser un factor determinante al igual que el año de registro.
+
+```{r analisis de cada grupo mixture gaussians, echo=FALSE}
+summary(g1PMC)
+summary(g2PMC)
+summary(g3PMC)
+summary(g4PMC)
+summary(g5PMC)
+summary(g6PMC)
+summary(g7PMC)
+```
+
+En este resúmen podemos identificar que se agrupo principalmente en relación al año, el grupo 1 se encuentran los años 2015-2020, 2 2012-2015, 3 2009,2012 y el 4to parece ser un complemento del 1ro. las edades parecen ser similares a través de los grupos.
+
+```{r analisis de cada grupo fuzzy c means, echo=FALSE}
+summary(g1FCM)
+summary(g2FCM)
+summary(g3FCM)
+summary(g4FCM)
+summary(g5FCM)
+summary(g6FCM)
+summary(g7FCM)
+```
+
+En el resúmer por fuzzy se puede identificar que la media de la edad de las mujeres parece ser constante, los años un poco variados pero en cierta manera se observa una relación entre año y edad del hombre.
+
+## Evaluación de la tendencia de agrupamiento:
+
+En esté análisis de datos consiste en examinar si los datos son agrupables, es decir, si los datos contienen cualquier estructura de agrupación inherente. Esto debe comprobarse antes de aplicar el análisis de agrupación.
+
+Hopkins estadística: si el valor de Hopkins estadística está cerca de cero muy por debajo de 0,5, entonces podemos concluir que el conjunto de datos es significativamente clusterable.
+VAT evaluación visual de la tendencia de agrupamiento: la cubeta detecta la tendencia de agrupamiento en una forma visual contando el número de bloques oscuros o coloreados de forma cuadrada a lo largo de la diagonal en una imagen de rectangulos.
+
+### En hombres
+
+```{r Evaluacion de la tendencia de agrupamiento:cluster jerarquico, echo=FALSE}
+clarax <- clara(datosMatrimonio$EDADMUJ , 3)
+# Cluster plot
+  
+plot(silhouette(clarax),  col = 2:3, main = "Silhouette plot")  
+```
+
+### En mujeres
+
+```{r elegir los algoritmos de agrupación apropiados, echo=FALSE}
+clorax <- clara(datosMatrimonio$EDADHOM , 3)
+# Cluster plot
+plot(silhouette(clorax),  col = 2:3, main = "Silhouette plot")
+```
