@@ -1264,20 +1264,36 @@ Por último, aquellos datos que tengan el registro, como el departamento de ocur
 
 Por lo que nos quedamos con los valores de: Clase de unión, edad del hombre, etnia del hombre y de la mujer, nacionalidad del hombre y mujer, departamento, municipio, mes, año, día y área de ocurrencia y la variable a predecir que es si la mujer es mayor o menor de edad
 
-<!-- ## Predicción por medio de Naive Bayes -->
+## Predicción por medio de Naive Bayes
 
-<!-- ```{r bayes, echo=FALSE} -->
-<!-- library(e1071) -->
-<!-- modelo <- naiveBayes(train$y~., data = train) -->
-<!-- predBayes <- predict(modelo, newdata = train[,1:13]) -->
-<!-- cm<- caret::confusionMatrix(predBayes,train$y) -->
-<!-- cm -->
-<!-- predBayesM <- predict(modelo, newdata = test[,1:13]) -->
-<!-- test$PredBayes <- predBayesM -->
-<!-- cm <- caret::confusionMatrix(test$PredBayes, test$y) -->
-<!-- cm -->
-<!-- ``` -->
+```{r bayes, echo=FALSE}
+library(e1071)
+modelo <- naiveBayes(train$y~., data = train)
+predBayes <- predict(modelo, newdata = train[,1:13])
+cm<- caret::confusionMatrix(predBayes,train$y)
+cm
+predBayesM <- predict(modelo, newdata = test[,1:13])
+test$PredBayes <- predBayesM
+cm <- caret::confusionMatrix(test$PredBayes, test$y)
+cm
+```
 
 Se utilizó Naive Bayes, que se basa en la fórmula estadística de bayes la cuál modela la probabilidad de que sucede un suceso en base a que otro previamente ha sucedido. Al ver el porcentaje de acierto del algoritmo, se puede notar que acertó en un 69% por lo que si parece haber patrones que determinan si la mujer es menor o mayor de edad. Adicionalmente, si vemos la matriz de confusión al momento de predecir si es mayor, suele ser bastante preciso, sin embargo, predijo que muchas mujeres eran mayores de edad cuando en realidad no lo eran, aún así, tambien es notable, al ver la matriz de confusión y el porcentaje de acierto que las variables si influencian el estado de la mujer al casarse.
 Es más conveniente usar Naive Bayes y árboles de decisión. En el caso de contar con mayor capacidad computacional podría intentar hacerse una red neuronal más completa con un tiempo menor y quizás obtener mejores resultados.
+
+## Prediccion por medio de árboles de decisión
+
+
+```{r arbolRpart, echo=FALSE}
+#con caret
+library (caret)
+ct<-trainControl(method = "cv",train[,1:13],number=10, verboseIter=T)
+modelorf<-train(y~.,data=train,method="rpart",trControl = ct)
+prediccionADVC<-predict(modelorf,newdata = test[,1:13])
+test$predADVC<-prediccionADVC
+cfmCaret <- confusionMatrix(test$predADVC,test$y)
+cfmCaret
+```
+
+Se realizó un modelo de arbol de clasificación por caret utilizando el método por partición recursiva utilizando un analisis multivariable para modelar la influencia de los atributos sobre la variable respuesta, en este caso si la mujer es menor o mayor de edad. Se puede observar en el análisis que la predicción tuvo una eficiencia de casi 78%, además, en la matriz de confusión se puede observar que predijo que 2953 eran menores de edad cuando en realidad eran mayores, por el otro lado predijo que 2581 mujeres eran mayores cuando en realidad eran menores, en sí esto es un número de equivocaciones significativamente preocupantes, sin embargo, al ver cuantas fueron sus predicciones acertadas, se puede determinar que efectivamente si la mujer es menor o mayor de edad se encuentra influenciada por variables como la edad del hombre, área geográfica, nacionalidad etc. 
 
