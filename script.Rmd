@@ -1286,7 +1286,7 @@ Es más conveniente usar Naive Bayes y árboles de decisión. En el caso de cont
 
 ```{r arbolRpart, echo=FALSE}
 #con caret
-library (caret)
+library (caretx)
 ct<-trainControl(method = "cv",train[,1:13],number=10, verboseIter=T)
 modelorf<-train(y~.,data=train,method="rpart",trControl = ct)
 prediccionADVC<-predict(modelorf,newdata = test[,1:13])
