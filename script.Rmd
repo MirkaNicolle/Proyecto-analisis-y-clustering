@@ -1379,13 +1379,13 @@ Utilizando redes neuronales por Rweka se obtuvo un porcentaje de casi 66% en don
 set.seed(123)
 
 #EDAD2012 <- X20122[,c("EDADMUJ", "CLAUNI", "GETMUJ")]
-EDAD2013 <- X2013[,c("EDADMUJ", "PUEMUJ", "DEPREG", "ESCMUJ")]
-EDAD2014 <- X2014[,c("EDADMUJ", "PUEMUJ", "DEPREG", "ESCMUJ")]
-EDAD2015 <- X2015[,c("EDADMUJ", "PUEMUJ", "DEPREG", "ESCMUJ")]
-EDAD2016 <- X2016[,c("EDADMUJ", "PUEMUJ", "DEPREG", "ESCMUJ")]
-EDAD2017 <- X2017[,c("EDADMUJ", "PUEMUJ", "DEPREG", "ESCMUJ")]
-EDAD2018 <- X2018[,c("EDADMUJ", "PUEMUJ", "DEPREG", "ESCMUJ")]
-EDAD2019 <- X2019[,c("EDADMUJ", "PUEMUJ", "DEPREG", "ESCMUJ")]
+EDAD2013 <- X2013[,c("EDADMUJ", "PUEMUJ", "DEPREG", "ESCMUJ", "EDADHOM")]
+EDAD2014 <- X2014[,c("EDADMUJ", "PUEMUJ", "DEPREG", "ESCMUJ", "EDADHOM")]
+EDAD2015 <- X2015[,c("EDADMUJ", "PUEMUJ", "DEPREG", "ESCMUJ", "EDADHOM")]
+EDAD2016 <- X2016[,c("EDADMUJ", "PUEMUJ", "DEPREG", "ESCMUJ", "EDADHOM")]
+EDAD2017 <- X2017[,c("EDADMUJ", "PUEMUJ", "DEPREG", "ESCMUJ", "EDADHOM")]
+EDAD2018 <- X2018[,c("EDADMUJ", "PUEMUJ", "DEPREG", "ESCMUJ", "EDADHOM")]
+EDAD2019 <- X2019[,c("EDADMUJ", "PUEMUJ", "DEPREG", "ESCMUJ", "EDADHOM")]
 
 EDADESMATRI <- rbind(EDAD2013,EDAD2014,EDAD2015,EDAD2016,EDAD2017,EDAD2018,EDAD2019)
 EDADESMATRI$clasificacion <- ifelse(EDADESMATRI$EDADMUJ <= 17, 0, ifelse(EDADESMATRI$EDADMUJ >= 18, 1,NA))
@@ -1397,6 +1397,7 @@ EDADESMATRI$clasificacion <- ifelse(EDADESMATRI$EDADMUJ <= 17, 0, ifelse(EDADESM
 
 
 ```{r SVM Clasificacion Matrimonio}
+library(e1071)
 
 set.seed(123)
 porciento <- 70/100
@@ -1409,7 +1410,7 @@ modelo_Matrimonio_L <- svm(clasificacion~., data=trainSVM_matrimonio,type="C-cla
 #modelo_Matrimonio_R <- svm(clasificacion~., data=trainSVM_matrimonio,type="C-classification", gamma=0.5, kernel="radial")
 #modelo_Matrimonio_P <- svm(clasificacion~., data=trainSVM_matrimonio,type="C-classification", gamma=0.5, kernel="linear", coef0=1)
 
-summary(modelo_Matrimonio)
+summary(modelo_Matrimonio_L)
 
 ```
 
@@ -1420,7 +1421,7 @@ summary(modelo_Matrimonio)
 ```{r MATRIZ DE CONFUSION SVM }
 library(caret)
 testSVM_Matrimonio$clasificacion<- as.factor(testSVM_Matrimonio$clasificacion)
-prediccion_SVM_Matrimonio <- predict(modelo_Matrimonio_L, newdata = testSVM_Matrimonio[,c("EDADMUJ", "PUEMUJ", "DEPREG", "ESCMUJ","clasificacion")])
+prediccion_SVM_Matrimonio <- predict(modelo_Matrimonio_L, newdata = testSVM_Matrimonio[,c("EDADMUJ", "PUEMUJ", "DEPREG", "ESCMUJ", "EDADHOM","clasificacion")])
 cm_SVM_Matrimonio <- confusionMatrix(testSVM_Matrimonio$clasificacion, prediccion_SVM_Matrimonio)
 cm_SVM_Matrimonio
 
