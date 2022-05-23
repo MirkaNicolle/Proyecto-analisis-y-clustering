@@ -1252,6 +1252,46 @@ rm(datos2014)
 rm(datos2015)
 rm(datos2016)
 rm(datos2017)
+rm(datosNacim2011)
+rm(datosNacim2012)
+rm(datosNacim2015)
+rm(datosNacim2016)
+rm(datosNacim2019)
+rm(datosN2013)
+rm(datosN2014)
+rm(nacimientos2011)
+rm(nacimientos2012)
+rm(nacimientos2013)
+rm(nacimientos2014)
+rm(nacimientos2015)
+rm(nacimientos2016)
+rm(nacimientos2017)
+rm(nacimientos2018)
+rm(nacimientos2019)
+rm(X20111)
+rm(X20122)
+rm(X2013)
+rm(X2014)
+rm(X2015)
+rm(X2016)
+rm(X2017)
+rm(X2018)
+rm(X2019)
+rm(g1FCM)
+rm(g1PMC)
+rm(g2FCM)
+rm(g2PMC)
+rm(gkm1)
+rm(gkm2)
+rm(mc)
+rm(fcmf)
+rm(modelo)
+rm(clarax)
+rm(clorax)
+rm(data_omit)
+rm(menorEdad)
+rm(menorEdadGraph)
+rm(menorEdadMuj)
 ```
 
 ## Segundo análisis de datos
@@ -1264,6 +1304,20 @@ La variable de escolaridad tanto de hombres como mujeres también será eliminad
 Por último, aquellos datos que tengan el registro, como el departamento de ocurrencia o el municipio de ocurrencia, también serán eliminados debido a que es más confiable trabajar con los datos de ocurrencia, porque en muchos casos se registran matrimonios tiempo después de que hayan ocurrido o incluso en lugares diferentes, por lo que los datos de registro no son tan confiables, además, en caso de que sí se haya registrado en la fecha y lugares correctos, se tendría los datos duplicados.
 
 Por lo que nos quedamos con los valores de: Clase de unión, edad del hombre, etnia del hombre y de la mujer, nacionalidad del hombre y mujer, departamento, municipio, mes, año, día y área de ocurrencia y la variable a predecir que es si la mujer es mayor o menor de edad
+
+
+```{r delvar, echo=TRUE}
+datosML <- datosML[,c(5,6,7,8,9,10,15,16,17,18,19,22,23)]
+porciento <- 70/100
+set.seed(123)
+trainRowsNumber<-sample(nrow(datosML),porciento*nrow(datosML))
+train<-datosML[trainRowsNumber,]
+test<-datosML[-trainRowsNumber,]
+```
+
+Para poder escoger los grupos de entrenamiento y prueba se ha utilizado el 70% del total de los datos para el entrenamiento y el 30% restante para la prueba, esto para que se cuente con una cantidad significativa de datos para así mejorar el entrenamiento de los mismos sin que se aprendan patrones específicos.
+
+
 
 ## Predicción por medio de Naive Bayes
 
@@ -1281,6 +1335,8 @@ cm
 
 Se utilizó Naive Bayes, que se basa en la fórmula estadística de bayes la cuál modela la probabilidad de que sucede un suceso en base a que otro previamente ha sucedido. Al ver el porcentaje de acierto del algoritmo, se puede notar que acertó en un 69% por lo que si parece haber patrones que determinan si la mujer es menor o mayor de edad. Adicionalmente, si vemos la matriz de confusión al momento de predecir si es mayor, suele ser bastante preciso, sin embargo, predijo que muchas mujeres eran mayores de edad cuando en realidad no lo eran, aún así, tambien es notable, al ver la matriz de confusión y el porcentaje de acierto que las variables si influencian el estado de la mujer al casarse.
 Es más conveniente usar Naive Bayes y árboles de decisión. En el caso de contar con mayor capacidad computacional podría intentar hacerse una red neuronal más completa con un tiempo menor y quizás obtener mejores resultados.
+
+
 
 ## Prediccion por medio de árboles de decisión
 
