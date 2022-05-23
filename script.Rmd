@@ -18,6 +18,7 @@ library(haven)
 library(foreign)
 
 datos2015 <- read_sav("./SAVS/2015M.sav")
+options(java.parameters = "-Xmx8000m")
 
 #NO FUE NECESARIO REALIZAR CAMBIOS 
 
@@ -1199,9 +1200,9 @@ Similar que para el cluster de hombres, para mujeres tambien tenemos 0.66 u dato
 
 #---------------------------Apartado de predición----------------------------------
 
-Con el fin de poder investigar más a fondo bajo que criterios es más probable que en un casamiento se encuentre implicada una mujer menor de edad (que en el análisis anterior se evidenció era más recurrente que los hombres) se decidió untilizar ML para poder predecir si dadas ciertas características una mujer será menor de edad en un matrimonio, para poder determinar en que lugares (o situaciones) debe ser atendido este problema.
+Con el fin de poder investigar más a fondo bajo que criterios es más probable que en un casamiento se encuentre implicada una mujer menor de edad (que en el análisis anterior se evidenció era más recurrente que los hombres) se decidió utilizar ML para poder predecir si dadas ciertas características una mujer será menor de edad en un matrimonio, para poder determinar en que lugares (o situaciones) debe ser atendido este problema.
 
-Con el objetivo de poder estudiar por categorias, se realizará una variable de clasificación adicional en el dataframe para poder llevar a cabo la predicción, en este caso se separó por menores y mayores de edad
+Con el objetivo de poder estudiar por categorias, se realizará una variable de clasificación adicional en el dataframe para poder llevar a cabo la predicción, en este caso se separó por menores y mayores de edad.
 
 ```{r Clasificación, echo=FALSE}
 datosMatrimonio$clasificacion <- ifelse(datosMatrimonio$EDADMUJ <= 17, "Menor", ifelse(datosMatrimonio$EDADMUJ >= 18, "Mayor",NA))
@@ -1286,7 +1287,7 @@ Es más conveniente usar Naive Bayes y árboles de decisión. En el caso de cont
 
 ```{r arbolRpart, echo=FALSE}
 #con caret
-library (caretx)
+library (caret)
 ct<-trainControl(method = "cv",train[,1:13],number=10, verboseIter=T)
 modelorf<-train(y~.,data=train,method="rpart",trControl = ct)
 prediccionADVC<-predict(modelorf,newdata = test[,1:13])
@@ -1296,4 +1297,25 @@ cfmCaret
 ```
 
 Se realizó un modelo de arbol de clasificación por caret utilizando el método por partición recursiva utilizando un analisis multivariable para modelar la influencia de los atributos sobre la variable respuesta, en este caso si la mujer es menor o mayor de edad. Se puede observar en el análisis que la predicción tuvo una eficiencia de casi 78%, además, en la matriz de confusión se puede observar que predijo que 2953 eran menores de edad cuando en realidad eran mayores, por el otro lado predijo que 2581 mujeres eran mayores cuando en realidad eran menores, en sí esto es un número de equivocaciones significativamente preocupantes, sin embargo, al ver cuantas fueron sus predicciones acertadas, se puede determinar que efectivamente si la mujer es menor o mayor de edad se encuentra influenciada por variables como la edad del hombre, área geográfica, nacionalidad etc. 
+
+## Prediccion por redes neuronales: RWEKA
+
+Se ha definido el uso de 13 nodos, que representan las 13 columnas a utilizar con los respectivos datos, a partir de esto puede observarse cómo es que se toman cada uno de los valores de las respectivas columnas y todo llega a una variable respuesta, por lo que se cuenta con una capa de entrada, en donde se reciben las señales de entrada, se cuenta con la capa oculta que es la que define la topología de toda la red pero no es posible observar y por último se cuenta con la capa de salida, que recibe la información de la capa oculta para poder transmitir la respuesta obtenida.
+
+```{r Rweka clasificación, echo=FALSE}
+#datosML <- lapply(datosML, as.factor)
+#install.packages("RWeka")
+library(RWeka)
+NB <- make_Weka_classifier("weka/classifiers/functions/MultilayerPerceptron")
+NB 
+WOW(NB)
+nnodos='13'
+modelo.bp<-NB(datosML$y~., data=datosML,subset = trainRowsNumber, control=Weka_control(H=nnodos, N=1, G=TRUE), options=NULL)
+test$prediccionWeka<-predict(modelo.bp, newdata = test[,1:13])
+cfmWeka<-confusionMatrix(test$prediccionWeka,test$y)
+cfmWeka
+```
+
+Utilizando redes neuronales por Rweka se obtuvo un porcentaje de casi 66% en donde, si se observa la matriz de confusión, el algoritmo realmente predijo que todas las mujeres en base a los datos de test serían mayores de edad, situación que evidentemente no sucede, es posible que esto se deba a que los datos no muestran realmente un patrón evidente en el cuál se identifique un set de características para poder diferenciar estos dos grupos.
+
 
